@@ -2,22 +2,24 @@ import React from 'react';
 import { ActivityIndicator, AsyncStorage, StatusBar, StyleSheet, View, Button } from 'react-native';
 import Logo from '../components/Logo';
 
-class HomeScreen extends React.Component {
+class OnBoarding extends React.Component {
   static navigationOptions = {
-    headerTitle: <Logo />,
+    // headerTitle: <Logo />,
+    title: 'Im the onBoarding',
   };
 
   render() {
     return (
       <View>
-        <Button title="Show me more of the app" onPress={this._showMoreApp} />
+        <Button title="Complete This OnBoarding" onPress={this._showMoreApp} />
         <Button title="Actually, sign me out :)" onPress={this._signOutAsync} />
       </View>
     );
   }
 
-  _showMoreApp = () => {
-    this.props.navigation.navigate('OnBoarding');
+  _showMoreApp = async () => {
+    await AsyncStorage.setItem('onBoarding', 'wow');
+    this.props.navigation.navigate('Home');
   };
 
   _signOutAsync = async () => {
@@ -25,4 +27,4 @@ class HomeScreen extends React.Component {
     this.props.navigation.navigate('Auth');
   };
 }
-export default HomeScreen;
+export default OnBoarding;
