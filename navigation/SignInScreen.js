@@ -13,6 +13,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
   },
+  buttonWrapper: {
+    padding: 15,
+    alignItems: 'center',
+    borderRadius: 15,
+    marginVertical: 10,
+    marginHorizontal: 40,
+  },
 });
 class SignInScreen extends React.Component {
   static navigationOptions = {
@@ -21,29 +28,41 @@ class SignInScreen extends React.Component {
 
   render() {
     return (
-      <View>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'column',
+          //   justifyContent: 'center',
+        }}
+      >
         {/* Welcome png  */}
-        <WelcomeLogo />
+        <View
+          style={{
+            paddingVertical: 50,
+          }}
+        >
+          <WelcomeLogo />
+        </View>
         {/* Continue with LinkedIn */}
-        <LinearGradient
-          colors={['#4c669f', '#3b5998', '#192f6a']}
-          style={{ padding: 15, alignItems: 'center', borderRadius: 5 }}
-        >
-          <Text onPress={this._signInAsync} style={styles.buttonText}>
-            Sign in with Facebook
-          </Text>
-        </LinearGradient>
         {/* Continue With Phone Number */}
-        <LinearGradient
-          colors={['#73BBCC', '#55A1F8', '#ADE75C']}
-          start={{ x: 0, y: 1 }}
-          end={{ x: 1, y: 1 }}
-          style={{ padding: 15, alignItems: 'center', borderRadius: 5 }}
-        >
-          <Text onPress={this._signInAsync} style={styles.buttonText}>
-            Sign in with Facebook
-          </Text>
-        </LinearGradient>
+        <View>
+          <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.buttonWrapper}>
+            <Text onPress={this._signInAsync} style={styles.buttonText}>
+              Sign In with LinkedIn
+            </Text>
+          </LinearGradient>
+
+          <LinearGradient
+            colors={['#73BBCC', '#55A1F8', '#ADE75C']}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.buttonWrapper}
+          >
+            <Text onPress={this._signInAsync} style={styles.buttonText}>
+              Sign In with Phone Number
+            </Text>
+          </LinearGradient>
+        </View>
       </View>
     );
   }
