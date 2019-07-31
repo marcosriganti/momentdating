@@ -1,37 +1,11 @@
 import React from 'react';
 import { createAppContainer, createSwitchNavigator, createStackNavigator } from 'react-navigation';
 
-import { ActivityIndicator, AsyncStorage, StatusBar, StyleSheet, View, Button } from 'react-native';
-
 import MainTabNavigator from './MainTabNavigator';
 import AuthLoadingScreen from './AuthLoadingScreen';
-import SignInScreen from './SignInScreen';
-
-class HomeScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Welcome to the app!',
-  };
-
-  render() {
-    return (
-      <View>
-        <Button title="Show me more of the app" onPress={this._showMoreApp} />
-        <Button title="Actually, sign me out :)" onPress={this._signOutAsync} />
-      </View>
-    );
-  }
-
-  _showMoreApp = () => {
-    this.props.navigation.navigate('Other');
-  };
-
-  _signOutAsync = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate('Auth');
-  };
-}
-
-const AppStack = createStackNavigator({ Home: HomeScreen });
+import SignInScreen from '../screens/SignInScreen';
+import HomeScreen from '../screens/HomeScreen';
+const AppStack = createStackNavigator({ Home: HomeScreen, onBoarding: HomeScreen });
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });
 
 // export default createAppContainer(

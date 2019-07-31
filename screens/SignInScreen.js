@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, StatusBar, StyleSheet, View, Button, Text } from 'react-native';
+import { AsyncStorage, StyleSheet, View, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 // Local Components
@@ -32,7 +32,6 @@ class SignInScreen extends React.Component {
         style={{
           flex: 1,
           flexDirection: 'column',
-          //   justifyContent: 'center',
         }}
       >
         {/* Welcome png  */}
@@ -43,15 +42,15 @@ class SignInScreen extends React.Component {
         >
           <WelcomeLogo />
         </View>
-        {/* Continue with LinkedIn */}
-        {/* Continue With Phone Number */}
+
         <View>
+          {/* Continue with LinkedIn */}
           <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.buttonWrapper}>
             <Text onPress={this._signInAsync} style={styles.buttonText}>
               Sign In with LinkedIn
             </Text>
           </LinearGradient>
-
+          {/* Continue With Phone Number */}
           <LinearGradient
             colors={['#73BBCC', '#55A1F8', '#ADE75C']}
             start={{ x: 0, y: 1 }}
