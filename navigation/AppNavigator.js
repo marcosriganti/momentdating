@@ -7,7 +7,7 @@ import SignInScreen from '../screens/SignInScreen';
 import HomeScreen from '../screens/HomeScreen';
 import OnBoarding from '../screens/OnBoardingScreen';
 
-const AppStack = createStackNavigator({ Home: HomeScreen, onBoarding: OnBoarding });
+const AppStack = createStackNavigator({ onBoarding: OnBoarding, Home: HomeScreen });
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });
 
 export default createAppContainer(

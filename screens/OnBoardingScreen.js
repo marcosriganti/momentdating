@@ -4,8 +4,7 @@ import Logo from '../components/Logo';
 
 class OnBoarding extends React.Component {
   static navigationOptions = {
-    // headerTitle: <Logo />,
-    title: 'Im the onBoarding',
+    headerTitle: <Logo />,
   };
 
   render() {
