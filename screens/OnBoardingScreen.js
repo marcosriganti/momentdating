@@ -1,7 +1,15 @@
 import React from 'react';
-import { ActivityIndicator, AsyncStorage, StatusBar, StyleSheet, View, Button } from 'react-native';
+import { ActivityIndicator, AsyncStorage, StatusBar, StyleSheet, View, Button, Text } from 'react-native';
 import Logo from '../components/Logo';
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    paddingHorizontal: 30,
+    paddingVertical: 40,
+  },
+});
 class OnBoarding extends React.Component {
   static navigationOptions = {
     headerTitle: <Logo />,
@@ -9,9 +17,13 @@ class OnBoarding extends React.Component {
 
   render() {
     return (
-      <View>
-        <Button title="Complete This OnBoarding" onPress={this._showMoreApp} />
-        <Button title="Actually, sign me out :)" onPress={this._signOutAsync} />
+      <View style={styles.container}>
+        <View>
+          <Text>What's Your Preferred Name? </Text>
+          <Text>Your name will be revelead only to the people when you get matched with.</Text>
+          {/* <Button title="Complete This OnBoarding" onPress={this._showMoreApp} /> */}
+          <Button title="Actually, sign me out :)" onPress={this._signOutAsync} />
+        </View>
       </View>
     );
   }
