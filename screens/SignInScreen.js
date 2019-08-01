@@ -31,19 +31,25 @@ class SignInScreen extends React.Component {
       <View
         style={{
           flex: 1,
-          flexDirection: 'column',
         }}
       >
         {/* Welcome png  */}
         <View
           style={{
-            paddingVertical: 50,
+            flex: 2,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
-          <WelcomeLogo />
+          <WelcomeLogo
+            style={{
+              flex: 1,
+            }}
+          />
         </View>
 
-        <View>
+        <View style={{ flex: 1 }}>
           {/* Continue with LinkedIn */}
           <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.buttonWrapper}>
             <Text onPress={this._signInAsync} style={styles.buttonText}>

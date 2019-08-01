@@ -2,7 +2,7 @@ import React from 'react';
 import { ActivityIndicator, AsyncStorage, StatusBar, StyleSheet, View, Button, Text } from 'react-native';
 import Logo from '../components/Logo';
 
-const styles = StyleSheet.create({
+const onBoardingStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -17,9 +17,9 @@ class OnBoarding extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={onBoardingStyles.container}>
         <View>
-          <Text>What's Your Preferred Name? </Text>
+          <Text>What's Your Preferred Name?</Text>
           <Text>Your name will be revelead only to the people when you get matched with.</Text>
           {/* <Button title="Complete This OnBoarding" onPress={this._showMoreApp} /> */}
           <Button title="Actually, sign me out :)" onPress={this._signOutAsync} />
