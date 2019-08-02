@@ -3,24 +3,13 @@ import { AsyncStorage, StyleSheet, View, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 // Local Components
+
 import Logo from '../components/Logo';
 import WelcomeLogo from '../components/WelcomeLogo';
+//Styles
+import Common from '../styles/Common';
+import Colors from '../constants/Colors';
 
-const styles = StyleSheet.create({
-  buttonText: {
-    backgroundColor: 'transparent',
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
-  buttonWrapper: {
-    padding: 15,
-    alignItems: 'center',
-    borderRadius: 15,
-    marginVertical: 10,
-    marginHorizontal: 40,
-  },
-});
 class SignInScreen extends React.Component {
   static navigationOptions = {
     headerTitle: <Logo />,
@@ -35,35 +24,31 @@ class SignInScreen extends React.Component {
       >
         {/* Welcome png  */}
         <View
-          style={{
-            flex: 2,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
+          style={[
+            Common.centerVertical,
+            {
+              flex: 2,
+            },
+          ]}
         >
-          <WelcomeLogo
-            style={{
-              flex: 1,
-            }}
-          />
+          <WelcomeLogo />
         </View>
 
         <View style={{ flex: 1 }}>
           {/* Continue with LinkedIn */}
-          <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.buttonWrapper}>
-            <Text onPress={this._signInAsync} style={styles.buttonText}>
+          <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={Common.buttonWrapper}>
+            <Text onPress={this._signInAsync} style={Common.buttonText}>
               Sign In with LinkedIn
             </Text>
           </LinearGradient>
           {/* Continue With Phone Number */}
           <LinearGradient
-            colors={['#73BBCC', '#55A1F8', '#ADE75C']}
+            colors={Colors.submitSet}
             start={{ x: 0, y: 1 }}
             end={{ x: 1, y: 1 }}
-            style={styles.buttonWrapper}
+            style={Common.buttonWrapper}
           >
-            <Text onPress={this._signInAsync} style={styles.buttonText}>
+            <Text onPress={this._signInAsync} style={Common.buttonText}>
               Sign In with Phone Number
             </Text>
           </LinearGradient>
