@@ -35,12 +35,6 @@ class SignInScreen extends React.Component {
         {/* </View> */}
 
         <View style={{ flex: 1 }}>
-          {/* Continue with LinkedIn */}
-          <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={Common.buttonWrapper}>
-            <Text onPress={this._signInAsync} style={Common.buttonText}>
-              Sign In with LinkedIn
-            </Text>
-          </LinearGradient>
           {/* Continue With Phone Number */}
           <LinearGradient
             colors={Colors.submitSet}
@@ -50,6 +44,24 @@ class SignInScreen extends React.Component {
           >
             <Text onPress={this._signInAsync} style={Common.buttonText}>
               Sign In with Phone Number
+            </Text>
+          </LinearGradient>
+
+          {/* Continue with LinkedIn */}
+          <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={Common.buttonWrapper}>
+            <Text onPress={this._signInAsync} style={Common.buttonText}>
+              Sign In with LinkedIn
+            </Text>
+          </LinearGradient>
+
+          <LinearGradient
+            colors={['#CC360C', '#DB3A0D']}
+            // start={{ x: 0, y: 1 }}
+            // end={{ x: 1, y: 1 }}
+            style={Common.buttonWrapper}
+          >
+            <Text onPress={this._signInAsync} style={Common.buttonText}>
+              Sign In with Google
             </Text>
           </LinearGradient>
         </View>
