@@ -1,21 +1,10 @@
 import React from 'react';
 import { AsyncStorage, StyleSheet, View, Text, Alert } from 'react-native';
-import {
-  Container,
-  Content,
-  Form,
-  Item,
-  Input,
-  DatePicker,
-  Radio,
-  Right,
-  Left,
-  ListItem,
-  CheckBox,
-  Body,
-} from 'native-base';
+import { Container, Content, Form, Item, Input, DatePicker, ListItem } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
-import Icon from 'react-native-ionicons';
+import { Ionicons } from '@expo/vector-icons';
+
+// import Icon from 'react-native-ionicons';
 
 import { LinearGradient } from 'expo-linear-gradient';
 // Local
@@ -42,6 +31,19 @@ const onBoardingStyles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 14,
   },
+  iconWrapper: {
+    backgroundColor: '#D8D8D8',
+    padding: 30,
+    borderRadius: 90,
+    width: 120,
+    height: 120,
+  },
+  iconLabel: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#969696',
+  },
 });
 class OnBoarding extends React.Component {
   static navigationOptions = {
@@ -50,7 +52,7 @@ class OnBoarding extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { chosenDate: new Date(), step: 0 };
+    this.state = { chosenDate: new Date(), step: 0, gender: null, inter: [] };
     this.setDate = this.setDate.bind(this);
   }
   setDate(newDate) {
@@ -123,18 +125,67 @@ class OnBoarding extends React.Component {
           {step == 3 ? (
             <View>
               <Text style={onBoardingStyles.title}>I identify as a... </Text>
-              <Text style={onBoardingStyles.help}>What you do is partt of your identity.</Text>
-
-              <Grid>
-                <Col style={{ backgroundColor: '#635DB7', height: 200 }}>
-                  <ListItem>
-                    <Icon ios="ios-add" android="md-add" />
-                  </ListItem>
+              <Grid style={{ marginVertical: 30, paddingHorizontal: 30 }}>
+                <Col>
+                  <View
+                    style={[
+                      onBoardingStyles.iconWrapper,
+                      { backgroundColor: this.state.gender == 1 ? `#A4F4F6` : `#D8D8D8` },
+                    ]}
+                  >
+                    <Ionicons
+                      onPress={() => this.setState({ gender: 1 })}
+                      name="md-male"
+                      size={48}
+                      color={this.state.gender == 1 ? `#ffffff` : `#969696`}
+                      style={{ textAlign: 'center' }}
+                    />
+                    <Text
+                      style={[onBoardingStyles.iconLabel, { color: this.state.gender == 1 ? `#ffffff` : `#969696` }]}
+                    >
+                      Man
+                    </Text>
+                  </View>
                 </Col>
-                <Col style={{ backgroundColor: '#00CE9F', height: 200 }} />
+                <Col>
+                  <View
+                    style={[
+                      onBoardingStyles.iconWrapper,
+                      { backgroundColor: this.state.gender == 2 ? `#A4F4F6` : `#D8D8D8` },
+                    ]}
+                  >
+                    <Ionicons
+                      onPress={() => this.setState({ gender: 2 })}
+                      name="md-female"
+                      size={48}
+                      color={this.state.gender == 2 ? `#ffffff` : `#969696`}
+                      style={{ textAlign: 'center' }}
+                    />
+                    <Text
+                      style={[onBoardingStyles.iconLabel, { color: this.state.gender == 2 ? `#ffffff` : `#969696` }]}
+                    >
+                      Woman
+                    </Text>
+                  </View>
+                </Col>
               </Grid>
 
               <Text style={onBoardingStyles.title}>Interested in meeting a... </Text>
+
+              <Grid style={{ marginVertical: 30, paddingHorizontal: 30 }}>
+                <Col>
+                  <View style={onBoardingStyles.iconWrapper} onPress={() => this.setState({ inter: 1 })}>
+                    <Ionicons name="md-male" size={48} color="#969696" style={{ textAlign: 'center' }} />
+                    <Text style={onBoardingStyles.iconLabel}>Man</Text>
+                  </View>
+                </Col>
+                <Col>
+                  <View style={onBoardingStyles.iconWrapper} onPress={() => this.setState({ inter: 2 })}>
+                    <Ionicons name="md-female" size={48} color="#969696" style={{ textAlign: 'center' }} />
+                    <Text style={onBoardingStyles.iconLabel}>Woman</Text>
+                  </View>
+                </Col>
+              </Grid>
             </View>
           ) : null}
 
