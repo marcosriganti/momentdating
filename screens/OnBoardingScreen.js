@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, StyleSheet, View, Text } from 'react-native';
+import { AsyncStorage, StyleSheet, View, Text, Alert } from 'react-native';
 import { Container, Content, Form, Item, Input, DatePicker } from 'native-base';
 
 import { LinearGradient } from 'expo-linear-gradient';
@@ -129,6 +129,7 @@ class OnBoarding extends React.Component {
     const { step } = this.state;
     this.setState({ step: step + 1 });
   };
+
   _showMoreApp = async () => {
     await AsyncStorage.setItem('onBoarding', 'wow');
     this.props.navigation.navigate('Home');

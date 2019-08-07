@@ -23,16 +23,16 @@ class SignInScreen extends React.Component {
         }}
       >
         {/* Welcome png  */}
-        <View
+        {/* <View
           style={[
             Common.centerVertical,
             {
               flex: 2,
             },
           ]}
-        >
-          <WelcomeLogo />
-        </View>
+        > */}
+        <WelcomeLogo />
+        {/* </View> */}
 
         <View style={{ flex: 1 }}>
           {/* Continue with LinkedIn */}
