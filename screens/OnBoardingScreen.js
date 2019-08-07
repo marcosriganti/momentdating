@@ -1,6 +1,21 @@
 import React from 'react';
 import { AsyncStorage, StyleSheet, View, Text, Alert } from 'react-native';
-import { Container, Content, Form, Item, Input, DatePicker } from 'native-base';
+import {
+  Container,
+  Content,
+  Form,
+  Item,
+  Input,
+  DatePicker,
+  Radio,
+  Right,
+  Left,
+  ListItem,
+  CheckBox,
+  Body,
+} from 'native-base';
+import { Col, Row, Grid } from 'react-native-easy-grid';
+import Icon from 'react-native-ionicons';
 
 import { LinearGradient } from 'expo-linear-gradient';
 // Local
@@ -65,7 +80,7 @@ class OnBoarding extends React.Component {
           {step == 1 ? (
             <View>
               <Text style={onBoardingStyles.title}>What's Your Profession?</Text>
-              <Text style={onBoardingStyles.help}>What you do is partt of your identity.</Text>
+              <Text style={onBoardingStyles.help}>What you do is part of your identity.</Text>
               <Form>
                 <Item floatingLabel>
                   <Input placeholder="I'm an engineer, artist, student, venture capitalist" />
@@ -79,26 +94,76 @@ class OnBoarding extends React.Component {
               <Text style={onBoardingStyles.title}>When is your birthday?</Text>
               <Text style={onBoardingStyles.help}>Be shared with the right audience.</Text>
               <Form>
-                <Item floatingLabel>
-                  <DatePicker
-                    defaultDate={new Date(2018, 4, 4)}
-                    minimumDate={new Date(2018, 1, 1)}
-                    maximumDate={new Date(2018, 12, 31)}
-                    locale={'en'}
-                    timeZoneOffsetInMinutes={undefined}
-                    modalTransparent={false}
-                    animationType={'fade'}
-                    androidMode={'default'}
-                    placeHolderText="Select date"
-                    textStyle={{ color: 'green' }}
-                    placeHolderTextStyle={{ color: '#d3d3d3' }}
-                    onDateChange={this.setDate}
-                    disabled={false}
-                  />
-                  <Input
-                    placeholder="I'm an engineer, artist, student, venture capitalist"
-                    value={this.state.chosenDate.toString().substr(4, 12)}
-                  />
+                <Item>
+                  <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <View style={{ flex: 1, marginTop: 20 }}>
+                      <DatePicker
+                        defaultDate={new Date(2018, 4, 4)}
+                        minimumDate={new Date(2018, 1, 1)}
+                        maximumDate={new Date(2018, 12, 31)}
+                        locale={'en'}
+                        timeZoneOffsetInMinutes={undefined}
+                        modalTransparent={false}
+                        animationType={'fade'}
+                        androidMode={'default'}
+                        placeHolderText="Select date"
+                        textStyle={{ color: 'green' }}
+                        style={{ width: '100%', textAlign: 'center' }}
+                        placeHolderTextStyle={{ color: '#d3d3d3' }}
+                        onDateChange={this.setDate}
+                        disabled={false}
+                      />
+                    </View>
+                  </View>
+                </Item>
+              </Form>
+            </View>
+          ) : null}
+
+          {step == 3 ? (
+            <View>
+              <Text style={onBoardingStyles.title}>I identify as a... </Text>
+              <Text style={onBoardingStyles.help}>What you do is partt of your identity.</Text>
+
+              <Grid>
+                <Col style={{ backgroundColor: '#635DB7', height: 200 }}>
+                  <ListItem>
+                    <Icon ios="ios-add" android="md-add" />
+                  </ListItem>
+                </Col>
+                <Col style={{ backgroundColor: '#00CE9F', height: 200 }} />
+              </Grid>
+
+              <Text style={onBoardingStyles.title}>Interested in meeting a... </Text>
+            </View>
+          ) : null}
+
+          {step == 4 ? (
+            <View>
+              <Text style={onBoardingStyles.title}>Discover realtime matches at any time and any location</Text>
+              <Text style={onBoardingStyles.help}>It helps us to find potential matches near you</Text>
+              <Form>
+                <Item>
+                  <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <View style={{ flex: 1, marginTop: 20 }}>
+                      <DatePicker
+                        defaultDate={new Date(2018, 4, 4)}
+                        minimumDate={new Date(2018, 1, 1)}
+                        maximumDate={new Date(2018, 12, 31)}
+                        locale={'en'}
+                        timeZoneOffsetInMinutes={undefined}
+                        modalTransparent={false}
+                        animationType={'fade'}
+                        androidMode={'default'}
+                        placeHolderText="Select date"
+                        textStyle={{ color: 'green' }}
+                        style={{ width: '100%', textAlign: 'center' }}
+                        placeHolderTextStyle={{ color: '#d3d3d3' }}
+                        onDateChange={this.setDate}
+                        disabled={false}
+                      />
+                    </View>
+                  </View>
                 </Item>
               </Form>
             </View>

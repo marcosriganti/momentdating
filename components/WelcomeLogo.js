@@ -6,42 +6,29 @@ class FadeInView extends React.Component {
   state = {
     fadeAnim: new Animated.Value(0), // Initial value for opacity: 0
   };
-
   componentDidMount() {
     Animated.loop(
       Animated.sequence([
         Animated.delay(this.props.index * TIME),
-        Animated.timing(
-          // Animate over time
-          this.state.fadeAnim, // The animated value to drive
-          {
-            toValue: 1, // Animate to opacity: 1 (opaque)
-            duration: TIME, // Make it take a while
-          }
-        ),
-        Animated.timing(
-          // Animate over time
-          this.state.fadeAnim, // The animated value to drive
-          {
-            toValue: 0, // Animate to opacity: 1 (opaque)
-            duration: TIME, // Make it take a while
-          }
-        ),
+        Animated.timing(this.state.fadeAnim, {
+          toValue: 1,
+          duration: TIME,
+        }),
+        Animated.timing(this.state.fadeAnim, {
+          toValue: 0,
+          duration: TIME,
+        }),
         Animated.delay((this.props.total - 1 - this.props.index) * TIME),
-        // Animated.delay(this.prop),
       ])
-    ).start(); // Starts the animation
+    ).start();
   }
-
   render() {
     let { fadeAnim } = this.state;
-
     return (
-      <Animated.View // Special animatable View
+      <Animated.View
         style={{
           ...this.props.style,
-          // zIndex: this.props.index,
-          opacity: this.props.index == 0 ? 1 : fadeAnim, // Bind opacity to animated value
+          opacity: this.props.index == 0 ? 1 : fadeAnim,
         }}
       >
         {this.props.children}
@@ -72,10 +59,6 @@ export default function WelcomeLogo(props) {
           <Image source={item} style={styles.welcomeLogo} />
         </FadeInView>
       ))}
-
-      {/* <Image source={require('../assets/images/home/2.jpg')} style={styles.welcomeLogo} /> */}
-      {/* <Image source={require('../assets/images/home/3.jpg')} style={styles.welcomeLogo} /> */}
-      {/* <Image source={require('../assets/images/home/4.jpg')} style={styles.welcomeLogo} /> */}
     </View>
   );
 }
