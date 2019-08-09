@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, StyleSheet, View, Text, TouchableOpacity, Alert } from 'react-native';
+import { AsyncStorage, StyleSheet, View, Text, TouchableOpacity, Alert, Image } from 'react-native';
 import { Container, Content, Form, Item, Input, DatePicker, ListItem } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Ionicons } from '@expo/vector-icons';
@@ -17,6 +17,7 @@ const onBoardingStyles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: 30,
     paddingVertical: 40,
+
     alignContent: 'center',
   },
   title: {
@@ -196,23 +197,8 @@ class OnBoarding extends React.Component {
               <Form>
                 <Item>
                   <View style={{ flex: 1, flexDirection: 'row' }}>
-                    <View style={{ flex: 1, marginTop: 20 }}>
-                      <DatePicker
-                        defaultDate={new Date(2018, 4, 4)}
-                        minimumDate={new Date(2018, 1, 1)}
-                        maximumDate={new Date(2018, 12, 31)}
-                        locale={'en'}
-                        timeZoneOffsetInMinutes={undefined}
-                        modalTransparent={false}
-                        animationType={'fade'}
-                        androidMode={'default'}
-                        placeHolderText="Select date"
-                        textStyle={{ color: 'green' }}
-                        style={{ width: '100%', textAlign: 'center' }}
-                        placeHolderTextStyle={{ color: '#d3d3d3' }}
-                        onDateChange={this.setDate}
-                        disabled={false}
-                      />
+                    <View style={{ flex: 1, marginTop: 50 }}>
+                      <Image source={require('../assets/images/boarding/location.jpg')} />
                     </View>
                   </View>
                 </Item>
