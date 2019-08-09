@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, StyleSheet, View, Text, Alert } from 'react-native';
+import { AsyncStorage, StyleSheet, View, Text, TouchableOpacity, Alert } from 'react-native';
 import { Container, Content, Form, Item, Input, DatePicker, ListItem } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Ionicons } from '@expo/vector-icons';
@@ -221,19 +221,18 @@ class OnBoarding extends React.Component {
           ) : null}
 
           <View style={{ flex: 1, marginTop: 50 }}>
-            <LinearGradient
-              colors={Colors.submitSet}
-              start={{ x: 0, y: 1 }}
-              end={{ x: 1, y: 1 }}
-              style={Common.buttonWrapper}
-            >
-              <Text
-                onPress={this._nextStep}
-                style={[Common.buttonText, { width: 100, height: 22, fontSize: 20, textAlign: 'center' }]}
+            <TouchableOpacity onPress={this._nextStep}>
+              <LinearGradient
+                colors={Colors.submitSet}
+                start={{ x: 0, y: 1 }}
+                end={{ x: 1, y: 1 }}
+                style={Common.buttonWrapper}
               >
-                Continue
-              </Text>
-            </LinearGradient>
+                <Text style={[Common.buttonText, { width: 100, height: 22, fontSize: 20, textAlign: 'center' }]}>
+                  Continue
+                </Text>
+              </LinearGradient>
+            </TouchableOpacity>
 
             <Text onPress={this._signOutAsync}> Exit </Text>
           </View>

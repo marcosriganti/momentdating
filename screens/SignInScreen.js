@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, StyleSheet, View, Text } from 'react-native';
+import { AsyncStorage, View, Text, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 // Local Components
@@ -36,34 +36,32 @@ class SignInScreen extends React.Component {
 
         <View style={{ flex: 1 }}>
           {/* Continue With Phone Number */}
-          <LinearGradient
-            colors={Colors.submitSet}
-            start={{ x: 0, y: 1 }}
-            end={{ x: 1, y: 1 }}
-            style={Common.buttonWrapper}
-          >
-            <Text onPress={this._signInAsync} style={Common.buttonText}>
-              Sign In with Phone Number
-            </Text>
-          </LinearGradient>
+          <TouchableOpacity onPress={this._signInAsync}>
+            <LinearGradient
+              colors={Colors.submitSet}
+              start={{ x: 0, y: 1 }}
+              end={{ x: 1, y: 1 }}
+              style={Common.buttonWrapper}
+            >
+              <Text onPress={this._signInAsync} style={Common.buttonText}>
+                Sign In with Phone Number
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
 
           {/* Continue with LinkedIn */}
-          <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={Common.buttonWrapper}>
-            <Text onPress={this._signInAsync} style={Common.buttonText}>
-              Sign In with LinkedIn
-            </Text>
-          </LinearGradient>
-
-          <LinearGradient
-            colors={['#CC360C', '#DB3A0D']}
-            // start={{ x: 0, y: 1 }}
-            // end={{ x: 1, y: 1 }}
-            style={Common.buttonWrapper}
-          >
-            <Text onPress={this._signInAsync} style={Common.buttonText}>
-              Sign In with Google
-            </Text>
-          </LinearGradient>
+          <TouchableOpacity onPress={this._signInAsync}>
+            <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={Common.buttonWrapper}>
+              <Text onPress={this._signInAsync} style={Common.buttonText}>
+                Sign In with LinkedIn
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this._signInAsync}>
+            <LinearGradient colors={['#CC360C', '#DB3A0D']} style={Common.buttonWrapper}>
+              <Text style={Common.buttonText}>Sign In with Google</Text>
+            </LinearGradient>
+          </TouchableOpacity>
         </View>
       </View>
     );
