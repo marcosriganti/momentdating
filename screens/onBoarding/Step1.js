@@ -11,9 +11,15 @@ import onBoardingStyles from '../../styles/onBoarding';
 export default class Step1 extends React.Component {
   state = {
     image: null,
+    primaryImage: null,
+    images: [null, null, null],
   };
   componentDidMount() {
+    const user = this.props.user;
     this.getPermissionAsync();
+    if (user.images !== undefined) {
+      this.setState({ images: user.images });
+    }
   }
 
   getPermissionAsync = async () => {
@@ -31,61 +37,61 @@ export default class Step1 extends React.Component {
     }
   };
 
-  _pickImage = async () => {
+  _pickImage = async (index, i) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
     });
 
-    console.log(result);
+    // console.log(result);
 
     if (!result.cancelled) {
-      this.setState({ image: result.uri });
+      let images = this.state.images;
+      images[index] = result.uri;
+      console.log(result.uri, 'index', index);
+      // this.setState({ image: result.uri });
+      this.setState({ images });
     }
   };
 
   render() {
-    let { image } = this.state;
-
+    let { image, images, primaryImage } = this.state;
+    console.log('Images>> ', images);
     return (
       <View>
         <Text style={onBoardingStyles.title}>Share Photos of your active life</Text>
         <Text style={onBoardingStyles.help}>Select up to 3 pictures.</Text>
         <Form>
           <View style={{ flex: 1 }}>
-            <Ionicons name="md-image" size={250} color={`#e5e5e5`} style={{ textAlign: 'center' }} />
+            {primaryImage ? (
+              <Image source={{ uri: primaryImage }} style={{ width: 250, height: 250 }} />
+            ) : (
+              <Ionicons name="md-image" size={250} color={`#e5e5e5`} style={{ textAlign: 'center' }} />
+            )}
           </View>
           <View style={{ flex: 1, flexDirection: 'row' }}>
-            <View style={{ flex: 1 }}>
-              <TouchableOpacity onPress={this._pickImage}>
-                <View>
-                  <Ionicons name="md-image" size={80} color={`#969696`} style={{ textAlign: 'center' }} />
+            {images.map((image, index) => {
+              console.log('showing image', index);
+              return (
+                <View style={{ flex: 1 }} key={`image-${index}`}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this._pickImage(index);
+                    }}
+                  >
+                    <View>
+                      {image ? (
+                        <Image source={{ uri: image }} style={{ width: 80, height: 80 }} />
+                      ) : (
+                        <Ionicons name="md-image" size={80} color={`#969696`} style={{ textAlign: 'center' }} />
+                      )}
+                    </View>
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
-            </View>
-            <View style={{ flex: 1 }}>
-              <TouchableOpacity onPress={this._pickImage}>
-                <View>
-                  <Ionicons name="md-image" size={80} color={`#969696`} style={{ textAlign: 'center' }} />
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View style={{ flex: 1 }}>
-              <TouchableOpacity onPress={this._pickImage}>
-                <View>
-                  <Ionicons name="md-image" size={80} color={`#969696`} style={{ textAlign: 'center' }} />
-                </View>
-              </TouchableOpacity>
-            </View>
+              );
+            })}
           </View>
-          {/* <TouchableOpacity onPress={this._pickImage}>
-            <View>
-              <Text>Pick image</Text>
-            </View>
-          </TouchableOpacity> */}
-          {/** Display selected image */}
-          {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
 
           {/* <Item floatingLabel>
             <Input
