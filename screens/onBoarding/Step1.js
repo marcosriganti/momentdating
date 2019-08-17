@@ -1,18 +1,12 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
 import { Form, Item, Input } from 'native-base';
-import onBoardingStyles from '../../styles/onBoarding';
-import { ImagePicker } from 'expo-image-picker';
-import Constants from 'expo-constants';
-import Permissions from 'expo-permissions';
 
-const options = {
-  title: 'Select Image',
-  storageOptions: {
-    skipBackup: true,
-    path: 'images',
-  },
-};
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
+import Constants from 'expo-constants';
+
+import onBoardingStyles from '../../styles/onBoarding';
 
 export default class Step1 extends React.Component {
   state = {
@@ -23,11 +17,16 @@ export default class Step1 extends React.Component {
   }
 
   getPermissionAsync = async () => {
-    console.log('>> getPermissionAsync', Constants.platform);
+    console.log('>> getPermissionAsync');
+
     if (Constants.platform.ios) {
-      const { status } = await Permissions.getAsync(Permissions.CAMERA_ROLL);
-      if (status !== 'granted') {
-        alert('Sorry, we need camera roll permissions to make this work!');
+      try {
+        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        if (status !== 'granted') {
+          Alert.alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
   };
