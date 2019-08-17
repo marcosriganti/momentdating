@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
 import { Form, Item, Input } from 'native-base';
-
+import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
@@ -51,13 +51,39 @@ export default class Step1 extends React.Component {
     return (
       <View>
         <Text style={onBoardingStyles.title}>Share Photos of your active life</Text>
-        <Text style={onBoardingStyles.help}>Pick up to 3 Pictures.</Text>
+        <Text style={onBoardingStyles.help}>Select up to 3 pictures.</Text>
         <Form>
-          <TouchableOpacity onPress={this._pickImage}>
+          <View style={{ flex: 1 }}>
+            <Ionicons name="md-image" size={250} color={`#e5e5e5`} style={{ textAlign: 'center' }} />
+          </View>
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ flex: 1 }}>
+              <TouchableOpacity onPress={this._pickImage}>
+                <View>
+                  <Ionicons name="md-image" size={80} color={`#969696`} style={{ textAlign: 'center' }} />
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={{ flex: 1 }}>
+              <TouchableOpacity onPress={this._pickImage}>
+                <View>
+                  <Ionicons name="md-image" size={80} color={`#969696`} style={{ textAlign: 'center' }} />
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={{ flex: 1 }}>
+              <TouchableOpacity onPress={this._pickImage}>
+                <View>
+                  <Ionicons name="md-image" size={80} color={`#969696`} style={{ textAlign: 'center' }} />
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+          {/* <TouchableOpacity onPress={this._pickImage}>
             <View>
               <Text>Pick image</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           {/** Display selected image */}
           {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
 

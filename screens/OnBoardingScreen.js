@@ -97,7 +97,7 @@ class OnBoarding extends React.Component {
             </View>
           ) : null}
 
-          {step == 3 ? (
+          {step == 4 ? (
             <View>
               <Text style={onBoardingStyles.title}>I identify as a... </Text>
               <Grid style={{ marginVertical: 30, paddingHorizontal: 30 }}>
@@ -182,7 +182,7 @@ class OnBoarding extends React.Component {
             </View>
           ) : null}
 
-          {step == 4 ? (
+          {step == 5 ? (
             <View>
               <Text style={onBoardingStyles.title}>Discover realtime matches at any time and any location</Text>
               <Text style={onBoardingStyles.help}>It helps us to find potential matches near you</Text>

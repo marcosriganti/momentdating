@@ -12,8 +12,8 @@ export default (Step2 = props => {
         <Item floatingLabel>
           <Input
             placeholder="I'm an engineer, artist, student, venture capitalist"
-            value={user.profession}
-            onChangeText={text => this.keyUpdate('profession', text)}
+            value={props.user.profession}
+            onChangeText={text => props.keyUpdate('profession', text)}
           />
         </Item>
       </Form>
