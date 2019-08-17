@@ -1,9 +1,9 @@
 {
   "expo": {
     "name": "Moment",
-    "slug": "momentdating",
+    "slug": "moment-dating-love",
     "privacy": "public",
-    "sdkVersion": "33.0.0",
+    "sdkVersion": "34.0.0",
     "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
@@ -18,8 +18,12 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.moment.momentdating"
+      "bundleIdentifier": "moment-dating-love",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.421951436102-n61pbm586cr6ki9li6q6n2cnrqjprdil"
+        }
+      }
     }
   }
 }

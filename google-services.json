@@ -1,0 +1,37 @@
+{
+  "project_info": {
+    "project_number": "1008540705913",
+    "firebase_url": "https://moment-dating.firebaseio.com",
+    "project_id": "moment-dating",
+    "storage_bucket": "moment-dating.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1008540705913:android:b0c747cb681458fa",
+        "android_client_info": {
+          "package_name": "com.moment.momentdating"
+        }
+      },
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFt-zS6W8Pu15axsOaHbSCuoATGwrVn-0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1008540705913-lmojg4ui947r4g3e4sj03mt4e2idoi3f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.moment.momentdating"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

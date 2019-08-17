@@ -1,64 +1,66 @@
-import React from 'react';
-// import firebase from 'react-native-firebase';
-import { ActivityIndicator, AsyncStorage, StatusBar, StyleSheet, View } from 'react-native';
+import React, { useContext } from 'react';
+import { ActivityIndicator, AsyncStorage, StatusBar, StyleSheet, View, Alert } from 'react-native';
+import { UserContext } from '../providers/UserProvider';
 
-class AuthLoadingScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-    };
-    this._bootstrapAsync();
-  }
+const AuthLoadingScreen = () => {
+  const user = useContext(UserContext);
 
-  /**
-   * When the App component mounts, we listen for any authentication
-   * state changes in Firebase.
-   * Once subscribed, the 'user' parameter will either be null
-   * (logged out) or an Object (logged in)
-   */
-  // componentDidMount() {
-  //   this.authSubscription = firebase.auth().onAuthStateChanged(user => {
-  //     this.setState({
-  //       loading: false,
-  //       user,
-  //     });
-  //   });
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     loading: true,
+  //   };
   // }
-  /**
-   * Don't forget to stop listening for authentication state changes
-   * when the component unmounts.
-   */
-  // componentWillUnmount() {
-  //   this.authSubscription();
-  // }
+  // componentDidMount = () => {
+  //   this._checkLoggedIn();
+  // };
 
   // Fetch the token from storage then navigate to our appropriate place
-  _bootstrapAsync = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
-    const onBoardingDone = await AsyncStorage.getItem('onBoarding');
+  // _checkLoggedIn = async () => {
+  //   console.log('_checkLoggedIn');
+  //   const userToken = await AsyncStorage.getItem('userToken');
+  //   const onBoardingDone = await AsyncStorage.getItem('onBoarding');
+  //   const user = useContext(UserContext);
+  //   console.log(user, userToken, onBoardingDone);
+  //   // const userRef = await firestore.collection('users').doc('wO4hrjNUBMZxlrY8qFGP');
+  // const user = userRef
+  //   .get()
+  //   .then(function(doc) {
+  //     if (doc.exists) {
+  //       AsyncStorage.setItem('user', doc.data());
+  //     } else {
+  //       // doc.data() will be undefined in this case
+  //       console.log('No such document!');
+  //     }
+  //   })
+  //   .catch(function(error) {
+  //     console.log('Error getting document:', error);
+  //   });
 
-    if (userToken) {
-      if (onBoardingDone) {
-        this.props.navigation.navigate('App');
-      } else {
-        this.props.navigation.navigate('onBoarding');
-      }
-    } else {
-      this.props.navigation.navigate('Auth');
-    }
-    // This will switch to the App screen or Auth screen and this loading
-    // screen will be unmounted and thrown away.
-  };
+  // auth.onAuthStateChanged(user => {
+  // if (userToken) {
+  //   if (onBoardingDone) {
+  //     this.props.navigation.navigate('App');
+  //   } else {
+  //     this.props.navigation.navigate('onBoarding');
+  //   }
+  // } else {
+  //   this.props.navigation.navigate('Auth');
+  // }
+  // // });
 
-  // Render any loading content that you like here
-  render() {
-    return (
-      <View>
-        <ActivityIndicator />
-        <StatusBar barStyle="default" />
-      </View>
-    );
-  }
-}
+  // This will switch to the App screen or Auth screen and this loading
+  // screen will be unmounted and thrown away.
+  // };
+
+  // render() {
+
+  return (
+    <View>
+      <ActivityIndicator />
+      <StatusBar barStyle="default" />
+    </View>
+  );
+  // }
+};
 export default AuthLoadingScreen;

@@ -4,8 +4,9 @@ import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-
+import UserProvider from './providers/UserProvider';
 import AppNavigator from './navigation/AppNavigator';
+console.disableYellowBox = true;
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -20,10 +21,12 @@ export default function App(props) {
     );
   } else {
     return (
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <AppNavigator />
-      </View>
+      <UserProvider>
+        <View style={styles.container}>
+          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+          <AppNavigator />
+        </View>
+      </UserProvider>
     );
   }
 }
