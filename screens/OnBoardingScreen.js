@@ -9,6 +9,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 //Steps
 import Step0 from './onBoarding/Step0';
+import Step1 from './onBoarding/Step1';
+import Step2 from './onBoarding/Step2';
 // Local
 import Logo from '../components/Logo';
 import Colors from '../constants/Colors';
@@ -34,7 +36,7 @@ class OnBoarding extends React.Component {
   componentDidMount = async () => {
     //Get  current user
     const user = await getUserDocument(this.state.userId);
-    this.setState({ user, chosenDate: user.birthdate ? user.birthdate : new Date() });
+    this.setState({ user, chosenDate: user.birthdate ? new Date(user.birthdate.seconds * 1000) : new Date() });
   };
   keyUpdate = (key, val) => {
     let newState = this.state.user;
@@ -48,7 +50,7 @@ class OnBoarding extends React.Component {
   };
 
   render() {
-    const { step, user } = this.state;
+    const { step, user, chosenDate } = this.state;
 
     if (!user) return null;
 
@@ -57,23 +59,11 @@ class OnBoarding extends React.Component {
         <Content style={onBoardingStyles.container}>
           {step == 0 ? <Step0 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
 
-          {step == 1 ? (
-            <View>
-              <Text style={onBoardingStyles.title}>What's Your Profession?</Text>
-              <Text style={onBoardingStyles.help}>What you do is part of your identity.</Text>
-              <Form>
-                <Item floatingLabel>
-                  <Input
-                    placeholder="I'm an engineer, artist, student, venture capitalist"
-                    value={user.profession}
-                    onChangeText={text => this.keyUpdate('profession', text)}
-                  />
-                </Item>
-              </Form>
-            </View>
-          ) : null}
+          {step == 1 ? <Step1 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
 
-          {step == 2 ? (
+          {step == 2 ? <Step2 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
+
+          {step == 3 ? (
             <View>
               <Text style={onBoardingStyles.title}>When is your birthday?</Text>
               <Text style={onBoardingStyles.help}>Be shared with the right audience.</Text>
@@ -82,7 +72,7 @@ class OnBoarding extends React.Component {
                   <View style={{ flex: 1, flexDirection: 'row' }}>
                     <View style={{ flex: 1, marginTop: 20 }}>
                       <DatePicker
-                        defaultDate={new Date(user.birthdate.seconds * 1000)}
+                        defaultDate={chosenDate}
                         minimumDate={new Date(1920, 1, 1)}
                         maximumDate={new Date(Date.now() - 60 * 60 * 24 * 365 * 18)}
                         locale={'en'}

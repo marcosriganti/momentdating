@@ -73,7 +73,6 @@ export const getUserDocument = async uid => {
   }
 };
 export const setUserDocument = async user => {
-  console.log('setUserDocument>>', user);
   const userRef = firestore.doc(`users/${user.uid}`);
   try {
     let props = {
