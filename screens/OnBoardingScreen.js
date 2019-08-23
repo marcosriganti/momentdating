@@ -3,6 +3,7 @@ import { AsyncStorage, StyleSheet, View, Text, TouchableOpacity, Alert, Image, T
 import { Container, Content, Form, Item, Input, DatePicker, ListItem } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Ionicons } from '@expo/vector-icons';
+import * as Permissions from 'expo-permissions';
 
 // import Icon from 'react-native-ionicons';
 
@@ -19,6 +20,38 @@ import onBoardingStyles from '../styles/onBoarding';
 
 import { getUserDocument, setUserDocument } from '../firebase';
 
+const questions = [
+  {
+    q: 'Which makes for a better relationship?',
+    a: ['Passion', 'Dedication'],
+  },
+  {
+    q: "What's your greatest motivation in life thus far?",
+    a: ['Love', 'Wealth', 'Knowledge', 'Self Expression'],
+  },
+  {
+    q: 'Which event sounds more appealing?',
+    a: ['Coachella music and art festival', 'Camping in Yosemite'],
+  },
+  {
+    q: 'Which best describes your perception of love?',
+    a: [
+      'Love is a committed campainonship',
+      'Live is two individuals who learn to grow together',
+      'Love is an adventure with another person',
+    ],
+  },
+  {
+    q: 'Which best describes your way to express love and care?',
+    a: [
+      'Compliment or appreciation through words or letters',
+      'Give each other undivided attention and spend quality time together',
+      'Give gifts and he/she likes',
+      'Serve him/her and do things for him or her',
+      'Physical touch: holding hands, kissing, embracing etc.',
+    ],
+  },
+];
 class OnBoarding extends React.Component {
   static navigationOptions = {
     headerTitle: <Logo />,
@@ -32,6 +65,18 @@ class OnBoarding extends React.Component {
       userId: 'le8dhoFiRXCKrLyMIfo3', //forcing to show myself
     };
   }
+  getPermissionAsync = async () => {
+    if (Constants.platform.ios) {
+      try {
+        const { status } = await Permissions.askAsync(Permissions.LOCATION);
+        if (status !== 'granted') {
+          Alert.alert('Sorry, we need Location permissions to make this work!');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   componentDidMount = async () => {
     //Get  current user
@@ -222,6 +267,9 @@ class OnBoarding extends React.Component {
     const { step, user } = this.state;
     //Save User State
     setUserDocument(user);
+    if (step == 4) {
+      this.getPermissionAsync();
+    }
     this.setState({ step: step + 1 });
   };
 

@@ -23,7 +23,6 @@ export default class Step1 extends React.Component {
   }
 
   getPermissionAsync = async () => {
-    console.log('>> getPermissionAsync');
 
     if (Constants.platform.ios) {
       try {
