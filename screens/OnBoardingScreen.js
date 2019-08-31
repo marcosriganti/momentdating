@@ -4,7 +4,7 @@ import { Container, Content, Form, Item, Input, DatePicker, ListItem } from 'nat
 import { Col, Row, Grid } from 'react-native-easy-grid';
 
 import * as Permissions from 'expo-permissions';
-
+import { Ionicons } from '@expo/vector-icons';
 // import Icon from 'react-native-ionicons';
 
 import { LinearGradient } from 'expo-linear-gradient';
@@ -66,18 +66,6 @@ class OnBoarding extends React.Component {
       userId: 'le8dhoFiRXCKrLyMIfo3', //forcing to show myself
     };
   }
-  getPermissionAsync = async () => {
-    if (Constants.platform.ios) {
-      try {
-        const { status } = await Permissions.askAsync(Permissions.LOCATION);
-        if (status !== 'granted') {
-          Alert.alert('Sorry, we need Location permissions to make this work!');
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
 
   componentDidMount = async () => {
     //Get  current user
@@ -98,39 +86,54 @@ class OnBoarding extends React.Component {
   render() {
     const { user, chosenDate } = this.state;
     // const { step } = this.props;
-    const step = this.props.navigation.getParam('step', 0);
+    const step = this.props.navigation.getParam('step', 6);
 
     if (!user) return null;
 
     return (
       <Container>
         <Content style={onBoardingStyles.container}>
-          <Text>Step: {JSON.stringify(step)}</Text>
+          {/* Name */}
           {!step ? <Step0 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
-
+          {/* Pictures  */}
           {step == 1 ? <Step1 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
-
+          {/*  Profression */}
           {step == 2 ? <Step2 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
-
+          {/* Bidthdate */}
           {step == 3 ? <Step3 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
-
+          {/* Gender  */}
           {step == 4 ? (
             <Step4 keyUpdate={this.keyUpdate.bind(this)} keyToggle={this.keyToggle.bind(this)} user={user} />
           ) : null}
-
-          {step == 5 ? (
-            <View>
-              <Text style={onBoardingStyles.title}>Discover realtime matches at any time and any location</Text>
-              <Text style={onBoardingStyles.help}>It helps us to find potential matches near you</Text>
-              <Form>
-                <Item>
-                  <View style={{ flex: 1, flexDirection: 'row' }}>
-                    <View style={{ flex: 1, marginTop: 50 }}>
-                      <Image source={require('../assets/images/boarding/location.jpg')} />
-                    </View>
-                  </View>
-                </Item>
-              </Form>
+          {/* Location */}
+          {step == 5 ? <Step3 user={user} /> : null}
+          {/* quetsions init */}
+          {step == 6 ? (
+            <View style={{}}>
+              <Text style={onBoardingStyles.title}>Answer 5 simple questions</Text>
+              <Text style={onBoardingStyles.help}>
+                This helps us discover your pattern in relationship and find the right match for you
+              </Text>
+              <LinearGradient
+                colors={['#5CA7EB', '#53F3FD']}
+                start={{ x: 0, y: 1 }}
+                end={{ x: 1, y: 1 }}
+                style={[
+                  Common.buttonWrapper,
+                  {
+                    width: 300,
+                    height: 300,
+                    top: 20,
+                    left: -10,
+                    borderRadius: 150,
+                    display: 'flex',
+                    alignItems: 'center',
+                    alignContent: 'space-around',
+                  },
+                ]}
+              >
+                <Ionicons name="question" size={100} color={`#fff`} style={{ textAlign: 'center', top: 80 }} />
+              </LinearGradient>
             </View>
           ) : null}
 
@@ -152,6 +155,7 @@ class OnBoarding extends React.Component {
             </TouchableOpacity>
 
             <Text onPress={this._signOutAsync}> Exit </Text>
+            <Text>Step: {JSON.stringify(step)}</Text>
           </View>
         </Content>
       </Container>
