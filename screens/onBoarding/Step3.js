@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
 import { Form, Item, DatePicker } from 'native-base';
 import onBoardingStyles from '../../styles/onBoarding';
+
 import moment from 'moment';
 export default class Step3 extends React.Component {
   state = {
@@ -14,6 +15,7 @@ export default class Step3 extends React.Component {
   render() {
     const { chosenDate } = this.state;
     if (!chosenDate) return null;
+    console.log(moment(chosenDate, 'YYYY/MM/DD'));
     return (
       <View>
         <Text style={onBoardingStyles.title}>When is your birthday?</Text>
@@ -24,7 +26,8 @@ export default class Step3 extends React.Component {
               <View style={{ flex: 1, marginTop: 20 }}>
                 <DatePicker
                   defaultDate={chosenDate}
-                  dateFormat={chosenDate}
+                  defaultValue={moment(chosenDate, 'YYYY/MM/DD')}
+                  selected={moment(chosenDate, 'YYYY/MM/DD')}
                   minimumDate={new Date(1920, 1, 1)}
                   maximumDate={new Date(Date.now() - 60 * 60 * 24 * 365 * 18)}
                   locale={'en'}
