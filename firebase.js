@@ -80,8 +80,6 @@ export const setUserDocument = async user => {
       updatedAt: new Date(),
     };
     delete props['uid'];
-
-    console.log('adding new data', props);
     await userRef.update(props);
   } catch (error) {
     console.log('setUserDocument', error);

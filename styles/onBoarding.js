@@ -7,7 +7,6 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: 30,
     paddingVertical: 40,
-
     alignContent: 'center',
   },
   title: {
@@ -17,8 +16,20 @@ export default StyleSheet.create({
     textAlign: 'center',
     marginBottom: 10,
   },
+  lightTitle: {
+    fontSize: 20,
+    color: Colors.grayColor,
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+
   help: {
     color: Colors.darkColor,
+    textAlign: 'center',
+    fontSize: 14,
+  },
+  lightHelp: {
+    color: Colors.grayColor,
     textAlign: 'center',
     fontSize: 14,
   },

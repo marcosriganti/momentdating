@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { AsyncStorage, StyleSheet, View, Text, TouchableOpacity, Alert, Image, TextInput } from 'react-native';
-import { Container, Content, Form, Item, Input, DatePicker, ListItem } from 'native-base';
+import { Container, Content, Form, Item, Input, DatePicker, ListItem, CheckBox, Body } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 
 import * as Permissions from 'expo-permissions';
@@ -24,18 +24,22 @@ import { getUserDocument, setUserDocument } from '../firebase';
 
 const questions = [
   {
+    title: 'Relationship Managament',
     q: 'Which makes for a better relationship?',
     a: ['Passion', 'Dedication'],
   },
   {
+    title: 'Motivation in Life',
     q: "What's your greatest motivation in life thus far?",
     a: ['Love', 'Wealth', 'Knowledge', 'Self Expression'],
   },
   {
+    title: 'Event of Interest',
     q: 'Which event sounds more appealing?',
     a: ['Coachella music and art festival', 'Camping in Yosemite'],
   },
   {
+    title: 'Perception of Love',
     q: 'Which best describes your perception of love?',
     a: [
       'Love is a committed campainonship',
@@ -44,6 +48,7 @@ const questions = [
     ],
   },
   {
+    title: 'Love Language',
     q: 'Which best describes your way to express love and care?',
     a: [
       'Compliment or appreciation through words or letters',
@@ -86,7 +91,9 @@ class OnBoarding extends React.Component {
   render() {
     const { user, chosenDate } = this.state;
     // const { step } = this.props;
-    const step = this.props.navigation.getParam('step', 6);
+    const step = this.props.navigation.getParam('step', 0);
+    let questionIndex = null;
+    if (step >= 7 && step < 12) questionIndex = parseInt(step) - 7;
 
     if (!user) return null;
 
@@ -137,10 +144,57 @@ class OnBoarding extends React.Component {
             </View>
           ) : null}
 
+          {step >= 7 && questionIndex >= 0 ? (
+            <View>
+              <Text style={onBoardingStyles.title}> {questions[questionIndex].title}</Text>
+              <Text style={onBoardingStyles.lightHelp}>
+                {questionIndex + 1}/{questions.length}
+              </Text>
+              <View
+                style={{
+                  marginVertical: 20,
+                  borderWidth: 1,
+                  borderColor: '#e5e5e5',
+                  paddingVertical: 20,
+                  paddingHorizontal: 10,
+                  borderRadius: 10,
+                }}
+              >
+                <Text style={onBoardingStyles.lightTitle}> {questions[questionIndex].q}</Text>
+                {questions[questionIndex].a.map((answer, index) => (
+                  <LinearGradient
+                    key={`${index}`}
+                    colors={['#5CA7EB', '#53F3FD']}
+                    start={{ x: 0, y: 1 }}
+                    end={{ x: 1, y: 1 }}
+                    style={{ marginVertical: 10, borderRadius: 20 }}
+                  >
+                    <ListItem onPress={() => this.keyUpdate('question_' + questionIndex, answer)}>
+                      <Body>
+                        <Text style={{ color: '#fff' }}>{answer}</Text>
+                      </Body>
+                      <CheckBox
+                        checked={
+                          user['question_' + questionIndex] && user['question_' + questionIndex] == answer
+                            ? true
+                            : false
+                        }
+                        value={answer}
+                      />
+                    </ListItem>
+                  </LinearGradient>
+                ))}
+              </View>
+            </View>
+          ) : null}
+
           <View style={{ flex: 1, marginTop: 50 }}>
             <TouchableOpacity
               //  onPress={this._nextStep}
-              onPress={() => this.props.navigation.navigate('screen' + (step + 1), { step: step + 1 })}
+              onPress={() => {
+                setUserDocument(user);
+                this.props.navigation.navigate('screen' + (step + 1), { step: step + 1 });
+              }}
             >
               <LinearGradient
                 colors={Colors.submitSet}
@@ -155,7 +209,8 @@ class OnBoarding extends React.Component {
             </TouchableOpacity>
 
             <Text onPress={this._signOutAsync}> Exit </Text>
-            <Text>Step: {JSON.stringify(step)}</Text>
+            <Text>Step: {step}</Text>
+            <Text>questionIndex: {questionIndex}</Text>
           </View>
         </Content>
       </Container>

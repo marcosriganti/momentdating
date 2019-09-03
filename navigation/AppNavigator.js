@@ -18,6 +18,9 @@ const AppStack = createStackNavigator({
   screen7: OnBoarding,
   screen8: OnBoarding,
   screen9: OnBoarding,
+  screen10: OnBoarding,
+  screen11: OnBoarding,
+  screen12: OnBoarding,
 
   Home: HomeScreen,
 });
