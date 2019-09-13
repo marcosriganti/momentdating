@@ -14,6 +14,7 @@ import Step1 from './onBoarding/Step1';
 import Step2 from './onBoarding/Step2';
 import Step3 from './onBoarding/Step3';
 import Step4 from './onBoarding/Step4';
+
 // Local
 import Logo from '../components/Logo';
 import Colors from '../constants/Colors';
@@ -91,7 +92,7 @@ class OnBoarding extends React.Component {
   render() {
     const { user, chosenDate } = this.state;
     // const { step } = this.props;
-    const step = this.props.navigation.getParam('step', 0);
+    const step = this.props.navigation.getParam('step', 1);
     let questionIndex = null;
     if (step >= 7 && step < 12) questionIndex = parseInt(step) - 7;
 
@@ -99,95 +100,97 @@ class OnBoarding extends React.Component {
 
     return (
       <Container>
-        <Content style={onBoardingStyles.container}>
-          {/* Name */}
-          {!step ? <Step0 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
-          {/* Pictures  */}
-          {step == 1 ? <Step1 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
-          {/*  Profression */}
-          {step == 2 ? <Step2 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
-          {/* Bidthdate */}
-          {step == 3 ? <Step3 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
-          {/* Gender  */}
-          {step == 4 ? (
-            <Step4 keyUpdate={this.keyUpdate.bind(this)} keyToggle={this.keyToggle.bind(this)} user={user} />
-          ) : null}
-          {/* Location */}
-          {step == 5 ? <Step3 user={user} /> : null}
-          {/* quetsions init */}
-          {step == 6 ? (
-            <View style={{}}>
-              <Text style={onBoardingStyles.title}>Answer 5 simple questions</Text>
-              <Text style={onBoardingStyles.help}>
-                This helps us discover your pattern in relationship and find the right match for you
-              </Text>
-              <LinearGradient
-                colors={['#5CA7EB', '#53F3FD']}
-                start={{ x: 0, y: 1 }}
-                end={{ x: 1, y: 1 }}
-                style={[
-                  Common.buttonWrapper,
-                  {
-                    width: 300,
-                    height: 300,
-                    top: 20,
-                    left: -10,
-                    borderRadius: 150,
-                    display: 'flex',
-                    alignItems: 'center',
-                    alignContent: 'space-around',
-                  },
-                ]}
-              >
-                <Ionicons name="question" size={100} color={`#fff`} style={{ textAlign: 'center', top: 80 }} />
-              </LinearGradient>
-            </View>
-          ) : null}
-
-          {step >= 7 && questionIndex >= 0 ? (
-            <View>
-              <Text style={onBoardingStyles.title}> {questions[questionIndex].title}</Text>
-              <Text style={onBoardingStyles.lightHelp}>
-                {questionIndex + 1}/{questions.length}
-              </Text>
-              <View
-                style={{
-                  marginVertical: 20,
-                  borderWidth: 1,
-                  borderColor: '#e5e5e5',
-                  paddingVertical: 20,
-                  paddingHorizontal: 10,
-                  borderRadius: 10,
-                }}
-              >
-                <Text style={onBoardingStyles.lightTitle}> {questions[questionIndex].q}</Text>
-                {questions[questionIndex].a.map((answer, index) => (
-                  <LinearGradient
-                    key={`${index}`}
-                    colors={['#5CA7EB', '#53F3FD']}
-                    start={{ x: 0, y: 1 }}
-                    end={{ x: 1, y: 1 }}
-                    style={{ marginVertical: 10, borderRadius: 20 }}
-                  >
-                    <ListItem onPress={() => this.keyUpdate('question_' + questionIndex, answer)}>
-                      <Body>
-                        <Text style={{ color: '#fff' }}>{answer}</Text>
-                      </Body>
-                      <CheckBox
-                        checked={
-                          user['question_' + questionIndex] && user['question_' + questionIndex] == answer
-                            ? true
-                            : false
-                        }
-                        value={answer}
-                      />
-                    </ListItem>
-                  </LinearGradient>
-                ))}
+        <View style={onBoardingStyles.container}>
+          <View style={{ flex: 3 }}>
+            {/* Name */}
+            {!step ? <Step0 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
+            {/* Pictures  */}
+            {step == 1 ? <Step1 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
+            {/*  Profression */}
+            {step == 2 ? <Step2 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
+            {/* Bidthdate */}
+            {step == 3 ? <Step3 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
+            {/* Gender  */}
+            {step == 4 ? (
+              <Step4 keyUpdate={this.keyUpdate.bind(this)} keyToggle={this.keyToggle.bind(this)} user={user} />
+            ) : null}
+            {/* Location */}
+            {step == 5 ? <Step3 user={user} /> : null}
+            {/* quetsions init */}
+            {step == 6 ? (
+              <View style={{}}>
+                <Text style={onBoardingStyles.title}>Answer 5 simple questions</Text>
+                <Text style={onBoardingStyles.help}>
+                  This helps us discover your pattern in relationship and find the right match for you
+                </Text>
+                <LinearGradient
+                  colors={['#5CA7EB', '#53F3FD']}
+                  start={{ x: 0, y: 1 }}
+                  end={{ x: 1, y: 1 }}
+                  style={[
+                    Common.buttonWrapper,
+                    {
+                      width: 300,
+                      height: 300,
+                      top: 20,
+                      left: -10,
+                      borderRadius: 150,
+                      display: 'flex',
+                      alignItems: 'center',
+                      alignContent: 'space-around',
+                    },
+                  ]}
+                >
+                  <Ionicons name="question" size={100} color={`#fff`} style={{ textAlign: 'center', top: 80 }} />
+                </LinearGradient>
               </View>
-            </View>
-          ) : null}
+            ) : null}
 
+            {step >= 7 && questionIndex >= 0 ? (
+              <View>
+                <Text style={onBoardingStyles.title}> {questions[questionIndex].title}</Text>
+                <Text style={onBoardingStyles.lightHelp}>
+                  {questionIndex + 1}/{questions.length}
+                </Text>
+                <View
+                  style={{
+                    marginVertical: 20,
+                    borderWidth: 1,
+                    borderColor: '#e5e5e5',
+                    paddingVertical: 20,
+                    paddingHorizontal: 10,
+                    borderRadius: 10,
+                  }}
+                >
+                  <Text style={onBoardingStyles.lightTitle}> {questions[questionIndex].q}</Text>
+                  {questions[questionIndex].a.map((answer, index) => (
+                    <LinearGradient
+                      key={`${index}`}
+                      colors={['#5CA7EB', '#53F3FD']}
+                      start={{ x: 0, y: 1 }}
+                      end={{ x: 1, y: 1 }}
+                      style={{ marginVertical: 10, borderRadius: 20 }}
+                    >
+                      <ListItem onPress={() => this.keyUpdate('question_' + questionIndex, answer)}>
+                        <Body>
+                          <Text style={{ color: '#fff' }}>{answer}</Text>
+                        </Body>
+                        <CheckBox
+                          checked={
+                            user['question_' + questionIndex] && user['question_' + questionIndex] == answer
+                              ? true
+                              : false
+                          }
+                          value={answer}
+                        />
+                      </ListItem>
+                    </LinearGradient>
+                  ))}
+                </View>
+              </View>
+            ) : null}
+          </View>
+          {/* Boarding Footer  */}
           <View style={{ flex: 1, marginTop: 50 }}>
             <TouchableOpacity
               //  onPress={this._nextStep}
@@ -209,10 +212,8 @@ class OnBoarding extends React.Component {
             </TouchableOpacity>
 
             <Text onPress={this._signOutAsync}> Exit </Text>
-            <Text>Step: {step}</Text>
-            <Text>questionIndex: {questionIndex}</Text>
           </View>
-        </Content>
+        </View>
       </Container>
     );
   }

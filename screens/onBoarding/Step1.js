@@ -8,6 +8,43 @@ import Constants from 'expo-constants';
 
 import onBoardingStyles from '../../styles/onBoarding';
 
+const ImageBox = ({ images, index, onPress }) => {
+  const image = images[index];
+  return (
+    <TouchableOpacity
+      onPress={() => onPress(index)}
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 5,
+      }}
+    >
+      <View
+        style={{
+          borderColor: '#666',
+          borderWidth: 1,
+          // height: index === 0 ? 200 : 100,
+          width: '100%',
+          backgroundColor: '#e5e5e5',
+          borderRadius: 10,
+          display: 'flex',
+          justifyContent: 'center',
+          alignContent: 'center',
+          alignItems: 'center',
+          aspectRatio: 1,
+        }}
+      >
+        {image ? (
+          <Image source={{ uri: image }} style={{ width: 80, height: 80 }} />
+        ) : (
+          <Ionicons name="md-camera" size={30} color={`#fff`} />
+        )}
+      </View>
+    </TouchableOpacity>
+  );
+};
 export default class Step1 extends React.Component {
   state = {
     image: null,
@@ -23,7 +60,6 @@ export default class Step1 extends React.Component {
   }
 
   getPermissionAsync = async () => {
-
     if (Constants.platform.ios) {
       try {
         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -56,50 +92,48 @@ export default class Step1 extends React.Component {
 
   render() {
     let { image, images, primaryImage } = this.state;
-    console.log('Images>> ', images);
+    const { user } = this.props;
+    console.log('Images>> ', images, user);
     return (
-      <View>
+      <View style={{ flex: 3 }}>
         <Text style={onBoardingStyles.title}>Share Photos of your active life</Text>
         <Text style={onBoardingStyles.help}>Select up to 3 pictures.</Text>
-        <Form>
-          <View style={{ flex: 1 }}>
+        {/* <View style={{ flex: 1 }}>
             {primaryImage ? (
               <Image source={{ uri: primaryImage }} style={{ width: 250, height: 250 }} />
             ) : (
               <Ionicons name="md-image" size={250} color={`#e5e5e5`} style={{ textAlign: 'center' }} />
             )}
-          </View>
-          <View style={{ flex: 1, flexDirection: 'row' }}>
-            {images.map((image, index) => {
-              console.log('showing image', index);
-              return (
-                <View style={{ flex: 1 }} key={`image-${index}`}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      this._pickImage(index);
-                    }}
-                  >
-                    <View>
-                      {image ? (
-                        <Image source={{ uri: image }} style={{ width: 80, height: 80 }} />
-                      ) : (
-                        <Ionicons name="md-image" size={80} color={`#969696`} style={{ textAlign: 'center' }} />
-                      )}
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              );
-            })}
+          </View> */}
+        <View style={{ flex: 2, flexDirection: 'row', marginTop: 20 }}>
+          <View style={{ flex: 2 }}>
+            <ImageBox index={0} images={images} onPress={this._pickImage} />
           </View>
 
-          {/* <Item floatingLabel>
+          <View style={{ flex: 1, paddingBottom: 20 }}>
+            <ImageBox index={1} images={images} onPress={this._pickImage} />
+            <ImageBox index={2} images={images} onPress={this._pickImage} />
+          </View>
+
+          {/* {images.map((image, index) => {
+              return (
+                <View style={{ flex: 1 }} key={`image-${index}`}>
+                
+                </View>
+              );
+            })} */}
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={onBoardingStyles.title}>{user.displayName}</Text>
+        </View>
+
+        {/* <Item floatingLabel>
             <Input
               placeholder="I'm an engineer, artist, student, venture capitalist"
               value={user.profession}
               onChangeText={text => this.keyUpdate('profession', text)}
             />
           </Item> */}
-        </Form>
       </View>
     );
   }
