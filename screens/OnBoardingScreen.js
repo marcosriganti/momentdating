@@ -14,6 +14,7 @@ import Step1 from './onBoarding/Step1';
 import Step2 from './onBoarding/Step2';
 import Step3 from './onBoarding/Step3';
 import Step4 from './onBoarding/Step4';
+import Step12 from './onBoarding/Step12';
 
 // Local
 import Logo from '../components/Logo';
@@ -116,9 +117,9 @@ class OnBoarding extends React.Component {
   render() {
     const { user, chosenDate } = this.state;
     // const { step } = this.props;
-    const step = this.props.navigation.getParam('step', 1);
+    const step = this.props.navigation.getParam('step', 11);
     let questionIndex = null;
-    if (step >= 7 && step < 12) questionIndex = parseInt(step) - 7;
+    if (step >= 6 && step < 11) questionIndex = parseInt(step) - 6;
 
     if (!user) return null;
 
@@ -145,9 +146,9 @@ class OnBoarding extends React.Component {
               <Step4 keyUpdate={this.keyUpdate.bind(this)} keyToggle={this.keyToggle.bind(this)} user={user} />
             ) : null}
             {/* Location */}
-            {step == 5 ? <Step3 user={user} /> : null}
+
             {/* quetsions init */}
-            {step == 6 ? (
+            {step == 5 ? (
               <View style={{}}>
                 <Text style={onBoardingStyles.title}>Answer 5 simple questions</Text>
                 <Text style={onBoardingStyles.help}>
@@ -176,7 +177,7 @@ class OnBoarding extends React.Component {
               </View>
             ) : null}
 
-            {step >= 7 && questionIndex >= 0 ? (
+            {step >= 6 && step < 11 && questionIndex >= 0 ? (
               <View>
                 <Text style={onBoardingStyles.title}> {questions[questionIndex].title}</Text>
                 <Text style={onBoardingStyles.lightHelp}>
@@ -219,6 +220,10 @@ class OnBoarding extends React.Component {
                 </View>
               </View>
             ) : null}
+
+            {step == 11 ? <Step12 user={user} /> : null}
+
+            {step == 12 ? <Step13 user={user} /> : null}
           </View>
           {/* Boarding Footer  */}
           <View style={{ flex: 1, marginTop: 50 }}>
@@ -240,8 +245,18 @@ class OnBoarding extends React.Component {
                 </Text>
               </LinearGradient>
             </TouchableOpacity>
+            {step >= 6 && questionIndex >= 0 ? (
+              <Text
+                onPress={() => {
+                  this.props.navigation.navigate('screen' + (step + 1), { step: step + 1 });
+                }}
+              >
+                Skip
+              </Text>
+            ) : null}
 
             <Text onPress={this._signOutAsync}> Exit </Text>
+            <Text> Steo: {step} </Text>
           </View>
         </View>
       </Container>
@@ -249,11 +264,13 @@ class OnBoarding extends React.Component {
   }
   _nextStep = () => {
     const { step, user } = this.state;
+
     //Save User State
     setUserDocument(user);
     if (step == 4) {
       this.getPermissionAsync();
     }
+
     this.setState({ step: step + 1 });
   };
 

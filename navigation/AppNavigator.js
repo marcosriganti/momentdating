@@ -7,7 +7,7 @@ import SignInScreen from '../screens/SignInScreen';
 import HomeScreen from '../screens/HomeScreen';
 import OnBoarding from '../screens/OnBoardingScreen';
 
-const AppStack = createStackNavigator({
+const Boarding = createStackNavigator({
   screen0: OnBoarding,
   screen1: OnBoarding,
   screen2: OnBoarding,
@@ -21,20 +21,22 @@ const AppStack = createStackNavigator({
   screen10: OnBoarding,
   screen11: OnBoarding,
   screen12: OnBoarding,
-
-  Home: HomeScreen,
+  screen13: OnBoarding,
 });
+
+const AppStack = createStackNavigator({ Home: HomeScreen });
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });
 
 export default createAppContainer(
   createSwitchNavigator(
     {
       AuthLoading: AuthLoadingScreen,
+      onBoarding: Boarding,
       App: AppStack,
       Auth: AuthStack,
     },
     {
-      initialRouteName: 'App',
+      initialRouteName: 'AuthLoading',
     }
   )
 );

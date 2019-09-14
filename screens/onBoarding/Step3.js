@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, Text } from 'react-native';
 import { Form, Item, DatePicker } from 'native-base';
 import onBoardingStyles from '../../styles/onBoarding';
 
@@ -20,6 +20,7 @@ export default class Step3 extends React.Component {
       <View>
         <Text style={onBoardingStyles.title}>When is your birthday?</Text>
         <Text style={onBoardingStyles.help}>Be shared with the right audience.</Text>
+        {/* <Text style={onBoardingStyles.help}>Saved Date: {moment(chosenDate).format('MMM Do YYYY')}</Text> */}
         <Form>
           <Item>
             <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -35,7 +36,7 @@ export default class Step3 extends React.Component {
                   modalTransparent={false}
                   animationType={'fade'}
                   androidMode={'default'}
-                  placeHolderText="Select date"
+                  // placeHolderText="Select date"
                   textStyle={{ color: 'green' }}
                   style={{ width: '100%', textAlign: 'center' }}
                   placeHolderTextStyle={{ color: '#d3d3d3' }}
