@@ -54,7 +54,12 @@ class SignInScreen extends React.Component {
             end={{ x: 1, y: 1 }}
             style={Common.buttonWrapper}
           >
-            <Text onPress={this._signInAsync} style={Common.buttonText}>
+            <Text
+              onPress={() => {
+                this.props.navigation.navigate('PhoneSignIn');
+              }}
+              style={Common.buttonText}
+            >
               Sign In with Phone Number
             </Text>
           </LinearGradient>
