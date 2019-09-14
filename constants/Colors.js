@@ -1,7 +1,7 @@
 const tintColor = '#2f95dc';
 
 export default {
-  darkColor: '#08090E',
+  darkColor: 'rgba(0, 0, 0, 0.64)',
   grayColor: '#666',
   tintColor,
   tabIconDefault: '#ccc',
@@ -13,5 +13,5 @@ export default {
   warningText: '#666804',
   noticeBackground: tintColor,
   noticeText: '#fff',
-  submitSet: ['#73BBCC', '#55A1F8', '#ADE75C'],
+  submitSet: ['#5CCAEB', '#53FDC2'],
 };

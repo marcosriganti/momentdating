@@ -1,11 +1,7 @@
-import React, { useContext } from 'react';
-import { AsyncStorage, StyleSheet, View, Text, TouchableOpacity, Alert, Image, TextInput } from 'react-native';
-import { Container, Content, Form, Item, Input, DatePicker, ListItem, CheckBox, Body } from 'native-base';
-import { Col, Row, Grid } from 'react-native-easy-grid';
-
-import * as Permissions from 'expo-permissions';
+import React from 'react';
+import { AsyncStorage, View, Text, TouchableOpacity, Alert } from 'react-native';
+import { Container, ListItem, CheckBox, Body } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
-// import Icon from 'react-native-ionicons';
 
 import { LinearGradient } from 'expo-linear-gradient';
 //Steps
@@ -14,6 +10,7 @@ import Step1 from './onBoarding/Step1';
 import Step2 from './onBoarding/Step2';
 import Step3 from './onBoarding/Step3';
 import Step4 from './onBoarding/Step4';
+import Step11 from './onBoarding/Step11';
 import Step12 from './onBoarding/Step12';
 
 // Local
@@ -114,14 +111,26 @@ class OnBoarding extends React.Component {
     newState[key] = !this.state.user[key] ? true : false;
     this.setState({ user: newState });
   };
+  _nextStep = async step => {
+    const { user } = this.state;
+    setUserDocument(user);
+    if (step == 12) {
+      //Set OnBoarding Done
+      await AsyncStorage.setItem('onBoarding', 'wow');
+      this.props.navigation.navigate('Home');
+    } else {
+      this.props.navigation.navigate('screen' + (step + 1), { step: step + 1 });
+    }
+  };
   render() {
-    const { user, chosenDate } = this.state;
+    const { user } = this.state;
     // const { step } = this.props;
-    const step = this.props.navigation.getParam('step', 11);
+    const step = this.props.navigation.getParam('step', 0);
     let questionIndex = null;
     if (step >= 6 && step < 11) questionIndex = parseInt(step) - 6;
 
     if (!user) return null;
+    const skippable = step >= 5 && step < 11;
 
     return (
       <Container>
@@ -177,7 +186,7 @@ class OnBoarding extends React.Component {
               </View>
             ) : null}
 
-            {step >= 6 && step < 11 && questionIndex >= 0 ? (
+            {skippable && step >= 6 && questionIndex >= 0 ? (
               <View>
                 <Text style={onBoardingStyles.title}> {questions[questionIndex].title}</Text>
                 <Text style={onBoardingStyles.lightHelp}>
@@ -186,11 +195,7 @@ class OnBoarding extends React.Component {
                 <View
                   style={{
                     marginVertical: 20,
-                    borderWidth: 1,
-                    borderColor: '#e5e5e5',
                     paddingVertical: 20,
-                    paddingHorizontal: 10,
-                    borderRadius: 10,
                   }}
                 >
                   <Text style={onBoardingStyles.lightTitle}> {questions[questionIndex].q}</Text>
@@ -221,19 +226,13 @@ class OnBoarding extends React.Component {
               </View>
             ) : null}
 
-            {step == 11 ? <Step12 user={user} /> : null}
+            {step == 11 ? <Step11 user={user} /> : null}
 
-            {step == 12 ? <Step13 user={user} /> : null}
+            {step == 12 ? <Step12 user={user} /> : null}
           </View>
           {/* Boarding Footer  */}
           <View style={{ flex: 1, marginTop: 50 }}>
-            <TouchableOpacity
-              //  onPress={this._nextStep}
-              onPress={() => {
-                setUserDocument(user);
-                this.props.navigation.navigate('screen' + (step + 1), { step: step + 1 });
-              }}
-            >
+            <TouchableOpacity onPress={() => this._nextStep(step)}>
               <LinearGradient
                 colors={Colors.submitSet}
                 start={{ x: 0, y: 1 }}
@@ -245,37 +244,26 @@ class OnBoarding extends React.Component {
                 </Text>
               </LinearGradient>
             </TouchableOpacity>
-            {step >= 6 && questionIndex >= 0 ? (
-              <Text
-                onPress={() => {
-                  this.props.navigation.navigate('screen' + (step + 1), { step: step + 1 });
-                }}
-              >
-                Skip
-              </Text>
+            {skippable ? (
+              <View style={{ textAlign: 'center' }}>
+                <Text
+                  style={[onBoardingStyles.help, { paddingVertical: 10 }]}
+                  onPress={() => {
+                    this.props.navigation.navigate('screen' + (step + 1), { step: step + 1 });
+                  }}
+                >
+                  Skip
+                </Text>
+              </View>
             ) : null}
-
-            <Text onPress={this._signOutAsync}> Exit </Text>
-            <Text> Steo: {step} </Text>
           </View>
         </View>
       </Container>
     );
   }
-  _nextStep = () => {
-    const { step, user } = this.state;
-
-    //Save User State
-    setUserDocument(user);
-    if (step == 4) {
-      this.getPermissionAsync();
-    }
-
-    this.setState({ step: step + 1 });
-  };
 
   _showMoreApp = async () => {
-    await AsyncStorage.setItem('onBoarding', 'wow');
+    await AsyncStorage.clear();
     this.props.navigation.navigate('Home');
   };
 

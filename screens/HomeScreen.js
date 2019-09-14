@@ -10,14 +10,16 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <View>
-        <Button title="Show me more of the app" onPress={this._showMoreApp} />
-        <Button title="Actually, sign me out :)" onPress={this._signOutAsync} />
+        <Button title="Back To the OnBoarding" onPress={this._showMoreApp} />
+        <Button title="Back to Login Page" onPress={this._signOutAsync} />
       </View>
     );
   }
 
-  _showMoreApp = () => {
-    this.props.navigation.navigate('OnBoarding');
+  _showMoreApp = async () => {
+    await AsyncStorage.clear();
+    await AsyncStorage.setItem('userToken', 'abc');
+    this.props.navigation.navigate('onBoarding');
   };
 
   _signOutAsync = async () => {
