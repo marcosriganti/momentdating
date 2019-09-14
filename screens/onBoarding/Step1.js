@@ -5,9 +5,9 @@ import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
-
 import onBoardingStyles from '../../styles/onBoarding';
 //
+
 const ImageBox = ({ images, index, onPress }) => {
   const image = images[index];
   return (
@@ -99,14 +99,14 @@ export default class Step1 extends React.Component {
       aspect: [4, 3],
     });
 
-    // console.log(result);
-
     if (!result.cancelled) {
       let images = this.state.images;
       images[index] = result.uri;
-      console.log(result.uri, 'index', index);
-      // this.setState({ image: result.uri });
+
+      uploadUrl = await this.props.uploadImageAsync(result.uri, this.props.user.uid);
+      images[index] = uploadUrl;
       this.setState({ images });
+      this.props.keyUpdate('images', images);
     }
   };
 
@@ -132,14 +132,6 @@ export default class Step1 extends React.Component {
         <View style={{ flex: 1 }}>
           <Text style={onBoardingStyles.title}>{user.displayName}</Text>
         </View>
-
-        {/* <Item floatingLabel>
-            <Input
-              placeholder="I'm an engineer, artist, student, venture capitalist"
-              value={user.profession}
-              onChangeText={text => this.keyUpdate('profession', text)}
-            />
-          </Item> */}
       </View>
     );
   }

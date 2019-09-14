@@ -21,7 +21,7 @@ import Colors from '../constants/Colors';
 import Common from '../styles/Common';
 import onBoardingStyles from '../styles/onBoarding';
 
-import { getUserDocument, setUserDocument } from '../firebase';
+import { getUserDocument, setUserDocument, storage } from '../firebase';
 
 const questions = [
   {
@@ -78,6 +78,31 @@ class OnBoarding extends React.Component {
     const user = await getUserDocument(this.state.userId);
     this.setState({ user, chosenDate: user.birthdate ? new Date(user.birthdate.seconds * 1000) : new Date() });
   };
+  uploadImageAsync = async (uri, uid) => {
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function() {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function(e) {
+        console.log(e);
+        reject(new TypeError('Network request failed'));
+      };
+      xhr.responseType = 'blob';
+      xhr.open('GET', uri, true);
+      xhr.send(null);
+    });
+
+    const ref = storage
+      .ref()
+      .child('user-profiles')
+      .child(uid)
+      .child(uri.split(/[\\/]/).pop());
+    const snapshot = await ref.put(blob);
+    blob.close();
+    return await snapshot.ref.getDownloadURL();
+  };
+
   keyUpdate = (key, val) => {
     let newState = this.state.user;
     newState[key] = val;
@@ -88,7 +113,6 @@ class OnBoarding extends React.Component {
     newState[key] = !this.state.user[key] ? true : false;
     this.setState({ user: newState });
   };
-
   render() {
     const { user, chosenDate } = this.state;
     // const { step } = this.props;
@@ -105,7 +129,13 @@ class OnBoarding extends React.Component {
             {/* Name */}
             {!step ? <Step0 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
             {/* Pictures  */}
-            {step == 1 ? <Step1 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
+            {step == 1 ? (
+              <Step1
+                keyUpdate={this.keyUpdate.bind(this)}
+                user={user}
+                uploadImageAsync={this.uploadImageAsync.bind(this)}
+              />
+            ) : null}
             {/*  Profression */}
             {step == 2 ? <Step2 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
             {/* Bidthdate */}

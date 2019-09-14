@@ -1,13 +1,14 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
+import 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDosh4NH3kl1Gz6Hy3IWSnHvK6oTEe5Wyo',
   authDomain: 'moment-dating-love.firebaseapp.com',
   databaseURL: 'https://moment-dating-love.firebaseio.com',
   projectId: 'moment-dating-love',
-  storageBucket: '',
+  storageBucket: 'moment-dating-love.appspot.com',
   messagingSenderId: '421951436102',
   appId: '1:421951436102:web:e2e1cecd8f36c34d',
 };
@@ -25,6 +26,7 @@ firebase.initializeApp(firebaseConfig);
 //   timestampsInSnapshots: true,
 // };
 export const firestore = firebase.firestore();
+export const storage = firebase.storage();
 // firestore.settings(settings);
 export default firebase;
 export const auth = firebase.auth();

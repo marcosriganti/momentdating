@@ -9,7 +9,7 @@ export default class Step4 extends React.Component {
   render() {
     const user = this.props.user;
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <Text style={onBoardingStyles.title}>I identify as a... </Text>
         <Grid style={{ marginVertical: 30, paddingHorizontal: 30 }}>
           <Col>
@@ -27,7 +27,7 @@ export default class Step4 extends React.Component {
           <Col>
             <View style={[onBoardingStyles.iconWrapper, { backgroundColor: user.gender == 2 ? `#A4F4F6` : `#D8D8D8` }]}>
               <Ionicons
-                onPress={() =>  this.props.keyUpdate('gender', 2)}
+                onPress={() => this.props.keyUpdate('gender', 2)}
                 name="md-female"
                 size={48}
                 color={user.gender == 2 ? `#ffffff` : `#969696`}
@@ -44,7 +44,7 @@ export default class Step4 extends React.Component {
 
         <Grid style={{ marginVertical: 30, paddingHorizontal: 30 }}>
           <Col>
-            <TouchableOpacity onPress={() =>  this.props.keyToggle('inMan')}>
+            <TouchableOpacity onPress={() => this.props.keyToggle('inMan')}>
               <View style={[onBoardingStyles.iconWrapper, { backgroundColor: user.inMan ? `#A4F4F6` : `#D8D8D8` }]}>
                 <Ionicons
                   name="md-male"
@@ -57,7 +57,7 @@ export default class Step4 extends React.Component {
             </TouchableOpacity>
           </Col>
           <Col>
-            <TouchableOpacity onPress={() =>  this.props.keyToggle('inWoman')}>
+            <TouchableOpacity onPress={() => this.props.keyToggle('inWoman')}>
               <View style={[onBoardingStyles.iconWrapper, { backgroundColor: user.inWoman ? `#A4F4F6` : `#D8D8D8` }]}>
                 <Ionicons
                   name="md-female"
