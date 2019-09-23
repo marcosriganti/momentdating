@@ -1,6 +1,12 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+  errorLabel: {
+    color: 'red',
+    fontSize: 14,
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+  },
   centerVertical: {
     flexDirection: 'row',
     alignItems: 'center',

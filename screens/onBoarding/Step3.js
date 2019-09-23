@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Form, Item, DatePicker } from 'native-base';
 import onBoardingStyles from '../../styles/onBoarding';
+import { renderIcon, renderHelp } from '../../components/common/Validation';
 
 import moment from 'moment';
 export default class Step3 extends React.Component {
@@ -14,15 +15,16 @@ export default class Step3 extends React.Component {
   }
   render() {
     const { chosenDate } = this.state;
+
     if (!chosenDate) return null;
-    console.log(moment(chosenDate, 'YYYY/MM/DD'));
+    const valid = this.props.validation['birthdate'];
     return (
       <View>
         <Text style={onBoardingStyles.title}>When is your birthday?</Text>
         <Text style={onBoardingStyles.help}>Be shared with the right audience.</Text>
         {/* <Text style={onBoardingStyles.help}>Saved Date: {moment(chosenDate).format('MMM Do YYYY')}</Text> */}
         <Form>
-          <Item>
+          <Item error={valid != undefined ? valid.error : false} success={valid != undefined ? valid.success : false}>
             <View style={{ flex: 1, flexDirection: 'row' }}>
               <View style={{ flex: 1, marginTop: 20 }}>
                 <DatePicker
@@ -48,7 +50,9 @@ export default class Step3 extends React.Component {
                 />
               </View>
             </View>
+            {renderIcon(valid)}
           </Item>
+          {renderHelp(valid)}
         </Form>
       </View>
     );

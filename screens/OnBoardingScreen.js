@@ -16,48 +16,83 @@ import Step12 from './onBoarding/Step12';
 // Local
 import Logo from '../components/Logo';
 import Colors from '../constants/Colors';
+// import SubmitButton from '../components/common/Submit';
+
 import Common from '../styles/Common';
 import onBoardingStyles from '../styles/onBoarding';
-
+import { questions } from './questions';
 import { getUserDocument, setUserDocument, storage } from '../firebase';
 
-const questions = [
-  {
-    title: 'Relationship Managament',
-    q: 'Which makes for a better relationship?',
-    a: ['Passion', 'Dedication'],
-  },
-  {
-    title: 'Motivation in Life',
-    q: "What's your greatest motivation in life thus far?",
-    a: ['Love', 'Wealth', 'Knowledge', 'Self Expression'],
-  },
-  {
-    title: 'Event of Interest',
-    q: 'Which event sounds more appealing?',
-    a: ['Coachella music and art festival', 'Camping in Yosemite'],
-  },
-  {
-    title: 'Perception of Love',
-    q: 'Which best describes your perception of love?',
-    a: [
-      'Love is a committed campainonship',
-      'Live is two individuals who learn to grow together',
-      'Love is an adventure with another person',
-    ],
-  },
-  {
-    title: 'Love Language',
-    q: 'Which best describes your way to express love and care?',
-    a: [
-      'Compliment or appreciation through words or letters',
-      'Give each other undivided attention and spend quality time together',
-      'Give gifts and he/she likes',
-      'Serve him/her and do things for him or her',
-      'Physical touch: holding hands, kissing, embracing etc.',
-    ],
-  },
-];
+export const SubmitButton = props => {
+  return (
+    <TouchableOpacity onPress={props.onPress}>
+      <LinearGradient
+        colors={Colors.submitSet}
+        start={{ x: 0, y: 1 }}
+        end={{ x: 1, y: 1 }}
+        style={Common.buttonWrapper}
+      >
+        <Text style={[Common.buttonText, { width: 100, height: 22, fontSize: 20, textAlign: 'center' }]}>Continue</Text>
+      </LinearGradient>
+    </TouchableOpacity>
+  );
+};
+const validate = (value, rules) => {
+  let key = null,
+    error = false,
+    message = '';
+
+  rules.map(rule => {
+    key = Object.keys(rule)[0];
+    switch (key) {
+      case 'required':
+        if (value.length === 0) {
+          error = true;
+          message = 'This field is required';
+        }
+        break;
+      case 'array':
+        if (value.length === 0) {
+          error = true;
+          message = 'At least one item is required';
+        }
+        break;
+      case 'minLength':
+        if (value.length < rule['minLength']) {
+          message = 'This field is required';
+          error = true;
+        }
+        break;
+      case 'date':
+        if (value.length === 0) {
+          error = true;
+          message = 'This field is required';
+        }
+        break;
+
+      default:
+        break;
+    }
+  });
+  return {
+    error: error,
+    success: !error,
+    message: message,
+  };
+};
+const validation = {
+  displayName: [{ required: true }, { minLength: 1 }],
+  profession: [{ required: true }, { minLength: 2 }],
+  images: [{ array: 1 }],
+  birthdate: [{ date: true }],
+};
+const step2Field = {
+  0: ['displayName'],
+  1: ['images'],
+  2: ['profession'],
+  3: ['birthdate'],
+  // 3: ['birthdate'],
+};
 class OnBoarding extends React.Component {
   static navigationOptions = {
     headerTitle: <Logo />,
@@ -67,6 +102,7 @@ class OnBoarding extends React.Component {
     super(props);
     this.state = {
       user: null,
+      validState: {},
       userId: 'le8dhoFiRXCKrLyMIfo3', //forcing to show myself
     };
   }
@@ -101,6 +137,21 @@ class OnBoarding extends React.Component {
     return await snapshot.ref.getDownloadURL();
   };
 
+  handleSubmit = step => {
+    let rules;
+    const fields = step2Field[step];
+    let newValidState = this.state.validState;
+    let success = true;
+    fields.map(item => {
+      rules = validation[item];
+      console.log('checking', item, rules);
+      newValidState[item] = validate(this.state.user[item], rules);
+      if (newValidState[item].error) success = false;
+    });
+
+    this.setState({ validState: newValidState });
+    if (success) this._nextStep(step);
+  };
   keyUpdate = (key, val) => {
     let newState = this.state.user;
     newState[key] = val;
@@ -123,8 +174,7 @@ class OnBoarding extends React.Component {
     }
   };
   render() {
-    const { user } = this.state;
-    // const { step } = this.props;
+    const { user, validState } = this.state;
     const step = this.props.navigation.getParam('step', 0);
     let questionIndex = null;
     if (step >= 6 && step < 11) questionIndex = parseInt(step) - 6;
@@ -137,7 +187,7 @@ class OnBoarding extends React.Component {
         <View style={onBoardingStyles.container}>
           <View style={{ flex: 3 }}>
             {/* Name */}
-            {!step ? <Step0 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
+            {!step ? <Step0 keyUpdate={this.keyUpdate.bind(this)} user={user} validation={validState} /> : null}
             {/* Pictures  */}
             {step == 1 ? (
               <Step1
@@ -147,12 +197,17 @@ class OnBoarding extends React.Component {
               />
             ) : null}
             {/*  Profression */}
-            {step == 2 ? <Step2 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
+            {step == 2 ? <Step2 keyUpdate={this.keyUpdate.bind(this)} user={user} validation={validState} /> : null}
             {/* Bidthdate */}
-            {step == 3 ? <Step3 keyUpdate={this.keyUpdate.bind(this)} user={user} /> : null}
+            {step == 3 ? <Step3 keyUpdate={this.keyUpdate.bind(this)} user={user} validation={validState} /> : null}
             {/* Gender  */}
             {step == 4 ? (
-              <Step4 keyUpdate={this.keyUpdate.bind(this)} keyToggle={this.keyToggle.bind(this)} user={user} />
+              <Step4
+                keyUpdate={this.keyUpdate.bind(this)}
+                keyToggle={this.keyToggle.bind(this)}
+                user={user}
+                validation={validState}
+              />
             ) : null}
             {/* Location */}
 
@@ -231,19 +286,8 @@ class OnBoarding extends React.Component {
             {step == 12 ? <Step12 user={user} /> : null}
           </View>
           {/* Boarding Footer  */}
+          <SubmitButton onPress={() => this.handleSubmit(step)} />
           <View style={{ flex: 1, marginTop: 50 }}>
-            <TouchableOpacity onPress={() => this._nextStep(step)}>
-              <LinearGradient
-                colors={Colors.submitSet}
-                start={{ x: 0, y: 1 }}
-                end={{ x: 1, y: 1 }}
-                style={Common.buttonWrapper}
-              >
-                <Text style={[Common.buttonText, { width: 100, height: 22, fontSize: 20, textAlign: 'center' }]}>
-                  Continue
-                </Text>
-              </LinearGradient>
-            </TouchableOpacity>
             {skippable ? (
               <View style={{ textAlign: 'center' }}>
                 <Text
