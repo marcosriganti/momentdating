@@ -10,6 +10,8 @@ import Step1 from './onBoarding/Step1';
 import Step2 from './onBoarding/Step2';
 import Step3 from './onBoarding/Step3';
 import Step4 from './onBoarding/Step4';
+import Step5 from './onBoarding/Step5';
+import Step6 from './onBoarding/Step6';
 import Step11 from './onBoarding/Step11';
 import Step12 from './onBoarding/Step12';
 
@@ -41,39 +43,41 @@ const validate = (value, rules) => {
   let key = null,
     error = false,
     message = '';
+  if (rules.length > 0) {
+    rules.map(rule => {
+      key = Object.keys(rule)[0];
+      switch (key) {
+        case 'required':
+          if (value.length === 0) {
+            error = true;
+            message = 'This field is required';
+          }
+          break;
+        case 'array':
+          if (value.length === 0) {
+            error = true;
+            message = 'At least one item is required';
+          }
+          break;
+        case 'minLength':
+          if (value.length < rule['minLength']) {
+            message = 'This field is required';
+            error = true;
+          }
+          break;
+        case 'date':
+          if (value.length === 0) {
+            error = true;
+            message = 'This field is required';
+          }
+          break;
 
-  rules.map(rule => {
-    key = Object.keys(rule)[0];
-    switch (key) {
-      case 'required':
-        if (value.length === 0) {
-          error = true;
-          message = 'This field is required';
-        }
-        break;
-      case 'array':
-        if (value.length === 0) {
-          error = true;
-          message = 'At least one item is required';
-        }
-        break;
-      case 'minLength':
-        if (value.length < rule['minLength']) {
-          message = 'This field is required';
-          error = true;
-        }
-        break;
-      case 'date':
-        if (value.length === 0) {
-          error = true;
-          message = 'This field is required';
-        }
-        break;
+        default:
+          break;
+      }
+    });
+  }
 
-      default:
-        break;
-    }
-  });
   return {
     error: error,
     success: !error,
@@ -142,12 +146,15 @@ class OnBoarding extends React.Component {
     const fields = step2Field[step];
     let newValidState = this.state.validState;
     let success = true;
-    fields.map(item => {
-      rules = validation[item];
-      console.log('checking', item, rules);
-      newValidState[item] = validate(this.state.user[item], rules);
-      if (newValidState[item].error) success = false;
-    });
+    if (fields.length > 0) {
+      fields.map(item => {
+        rules = validation[item];
+        if (rules !== undefined) {
+          newValidState[item] = validate(this.state.user[item], rules);
+          if (newValidState[item].error) success = false;
+        }
+      });
+    }
 
     this.setState({ validState: newValidState });
     if (success) this._nextStep(step);
@@ -212,74 +219,9 @@ class OnBoarding extends React.Component {
             {/* Location */}
 
             {/* quetsions init */}
-            {step == 5 ? (
-              <View style={{}}>
-                <Text style={onBoardingStyles.title}>Answer 5 simple questions</Text>
-                <Text style={onBoardingStyles.help}>
-                  This helps us discover your pattern in relationship and find the right match for you
-                </Text>
-                <LinearGradient
-                  colors={['#5CA7EB', '#53F3FD']}
-                  start={{ x: 0, y: 1 }}
-                  end={{ x: 1, y: 1 }}
-                  style={[
-                    Common.buttonWrapper,
-                    {
-                      width: 300,
-                      height: 300,
-                      top: 20,
-                      left: -10,
-                      borderRadius: 150,
-                      display: 'flex',
-                      alignItems: 'center',
-                      alignContent: 'space-around',
-                    },
-                  ]}
-                >
-                  <Ionicons name="question" size={100} color={`#fff`} style={{ textAlign: 'center', top: 80 }} />
-                </LinearGradient>
-              </View>
-            ) : null}
+            {step == 5 ? <Step5 /> : null}
 
-            {skippable && step >= 6 && questionIndex >= 0 ? (
-              <View>
-                <Text style={onBoardingStyles.title}> {questions[questionIndex].title}</Text>
-                <Text style={onBoardingStyles.lightHelp}>
-                  {questionIndex + 1}/{questions.length}
-                </Text>
-                <View
-                  style={{
-                    marginVertical: 20,
-                    paddingVertical: 20,
-                  }}
-                >
-                  <Text style={onBoardingStyles.lightTitle}> {questions[questionIndex].q}</Text>
-                  {questions[questionIndex].a.map((answer, index) => (
-                    <LinearGradient
-                      key={`${index}`}
-                      colors={['#5CA7EB', '#53F3FD']}
-                      start={{ x: 0, y: 1 }}
-                      end={{ x: 1, y: 1 }}
-                      style={{ marginVertical: 10, borderRadius: 20 }}
-                    >
-                      <ListItem onPress={() => this.keyUpdate('question_' + questionIndex, answer)}>
-                        <Body>
-                          <Text style={{ color: '#fff' }}>{answer}</Text>
-                        </Body>
-                        <CheckBox
-                          checked={
-                            user['question_' + questionIndex] && user['question_' + questionIndex] == answer
-                              ? true
-                              : false
-                          }
-                          value={answer}
-                        />
-                      </ListItem>
-                    </LinearGradient>
-                  ))}
-                </View>
-              </View>
-            ) : null}
+            {skippable && step >= 6 && questionIndex >= 0 ? <Step6 questionIndex={questionIndex} /> : null}
 
             {step == 11 ? <Step11 user={user} /> : null}
 
