@@ -1,11 +1,15 @@
-import React from 'react';
-import { createAppContainer, createSwitchNavigator, createStackNavigator } from 'react-navigation';
+import React from "react";
+import {
+  createAppContainer,
+  createSwitchNavigator,
+  createStackNavigator
+} from "react-navigation";
 
-import AuthLoadingScreen from './AuthLoadingScreen';
-import SignInScreen from '../screens/SignInScreen';
-import HomeScreen from '../screens/HomeScreen';
-import OnBoarding from '../screens/OnBoardingScreen';
-import PhoneScreen from '../screens/PhoneScreen';
+import AuthLoadingScreen from "./AuthLoadingScreen";
+import SignInScreen from "../screens/SignInScreen";
+import HomeScreen from "../screens/HomeScreen";
+import OnBoarding from "../screens/OnBoardingScreen";
+import PhoneScreen from "../screens/PhoneScreen";
 
 const Boarding = createStackNavigator({
   screen0: OnBoarding,
@@ -21,11 +25,15 @@ const Boarding = createStackNavigator({
   screen10: OnBoarding,
   screen11: OnBoarding,
   screen12: OnBoarding,
-  screen13: OnBoarding,
+  screen13: OnBoarding
 });
 
 const AppStack = createStackNavigator({ Home: HomeScreen });
-const AuthStack = createStackNavigator({ SignIn: SignInScreen, PhoneSignIn: PhoneScreen, VerifyPhone: PhoneScreen });
+const AuthStack = createStackNavigator({
+  SignIn: SignInScreen,
+  PhoneSignIn: PhoneScreen,
+  VerifyPhone: PhoneScreen
+});
 
 export default createAppContainer(
   createSwitchNavigator(
@@ -33,10 +41,10 @@ export default createAppContainer(
       AuthLoading: AuthLoadingScreen,
       onBoarding: Boarding,
       App: AppStack,
-      Auth: AuthStack,
+      Auth: AuthStack
     },
     {
-      initialRouteName: 'AuthLoading',
+      initialRouteName: "AuthLoading"
     }
   )
 );

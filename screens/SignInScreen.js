@@ -1,22 +1,31 @@
-import React from 'react';
-import { AsyncStorage, View, Text, TouchableOpacity, Alert } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import React from "react";
+import {
+  AsyncStorage,
+  View,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+  Image,
+  Alert
+} from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 // import * as GoogleSignIn from 'expo-google-sign-in';
 // import * as Google from 'expo-google-app-auth';
-import * as GoogleSignIn from 'expo-google-sign-in';
+import * as GoogleSignIn from "expo-google-sign-in";
 // This value should contain your REVERSE_CLIENT_ID
 
 // Local Components
 
-import Logo from '../components/Logo';
-import WelcomeLogo from '../components/WelcomeLogo';
+import Logo from "../components/Logo";
+import WelcomeLogo from "../components/WelcomeLogo";
 //Styles
-import Common from '../styles/Common';
-import Colors from '../constants/Colors';
+import Common from "../styles/Common";
+import Colors from "../constants/Colors";
 
 class SignInScreen extends React.Component {
   static navigationOptions = {
     headerTitle: <Logo />,
+    headerStyle: { backgroundColor: "#fff", elevation: 0, borderBottomWidth: 0 }
   };
 
   // componentDidMount = async () => {
@@ -42,12 +51,52 @@ class SignInScreen extends React.Component {
   // };
 
   render() {
+    const dimensions = Dimensions.get("window");
+    // const imageHeight = Math.round((dimensions.width * 9) / 16);
+    const imageWidth = dimensions.width;
+
     return (
-      <View style={{ flex: 1 }}>
-        <WelcomeLogo />
-        <View style={{ flex: 1 }}>
+      <View style={{ flex: 3 }}>
+        <View
+          style={{
+            flex: 2,
+            alignItems: "center",
+            flexDirection: "row"
+          }}
+        >
+          <Image
+            source={require("../assets/images/signin/signin.jpg")}
+            style={{ height: imageWidth, width: imageWidth }}
+          />
+        </View>
+        <View style={{ flex: 1, paddingHorizontal: 20 }}>
           {/* Continue With Phone Number */}
-          <TouchableOpacity onPress={this._signInAsync} />
+
+          <TouchableOpacity style={Common.btnPrimary}>
+            <Text style={Common.btnPrimaryText}>Continue with LinkedIn</Text>
+          </TouchableOpacity>
+          <View style={{ flex: 2, flexDirection: "row" }}>
+            <View style={{ flex: 1, marginRight: 15 }}>
+              <TouchableOpacity style={Common.btnDefault}>
+                <Image
+                  style={Common.btnImage}
+                  source={require("../assets/images/common/google.jpg")}
+                ></Image>
+                <Text style={Common.btnDefaultText}>Google</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{ flex: 1, marginLeft: 15 }}>
+              <TouchableOpacity style={Common.btnDefault}>
+                <Image
+                  style={Common.btnImage}
+                  source={require("../assets/images/common/phone.jpg")}
+                ></Image>
+                <Text style={Common.btnDefaultText}>Phone</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+        {/* <TouchableOpacity onPress={this._signInAsync} />
           <LinearGradient
             colors={Colors.submitSet}
             start={{ x: 0, y: 1 }}
@@ -56,34 +105,39 @@ class SignInScreen extends React.Component {
           >
             <Text
               onPress={() => {
-                this.props.navigation.navigate('PhoneSignIn');
+                this.props.navigation.navigate("PhoneSignIn");
               }}
               style={Common.buttonText}
             >
               Sign In with Phone Number
             </Text>
-          </LinearGradient>
+          </LinearGradient> */}
 
-          {/* Continue with LinkedIn */}
-          <TouchableOpacity onPress={this._signInAsync}>
-            <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={Common.buttonWrapper}>
+        {/* Continue with LinkedIn */}
+        {/* <TouchableOpacity onPress={this._signInAsync}>
+            <LinearGradient
+              colors={["#4c669f", "#3b5998", "#192f6a"]}
+              style={Common.buttonWrapper}
+            >
               <Text onPress={this._signInAsync} style={Common.buttonText}>
                 Sign In with LinkedIn
               </Text>
             </LinearGradient>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this._signInAsync}>
-            <LinearGradient colors={['#CC360C', '#DB3A0D']} style={Common.buttonWrapper}>
+          </TouchableOpacity> */}
+        {/* <TouchableOpacity onPress={this._signInAsync}>
+            <LinearGradient
+              colors={["#CC360C", "#DB3A0D"]}
+              style={Common.buttonWrapper}
+            >
               <Text style={Common.buttonText}>Sign In with Google</Text>
             </LinearGradient>
-          </TouchableOpacity>
-        </View>
+          </TouchableOpacity> */}
       </View>
     );
   }
   _signInAsync = async () => {
-    await AsyncStorage.setItem('userToken', 'abc');
-    this.props.navigation.navigate('onBoarding');
+    await AsyncStorage.setItem("userToken", "abc");
+    this.props.navigation.navigate("onBoarding");
   };
 }
 

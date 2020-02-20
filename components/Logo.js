@@ -16,8 +16,6 @@ const styles = StyleSheet.create({
     height: 37,
     marginVertical: 10,
     paddingVertical: 10,
-    resizeMode: "contain",
-    borderColor: "red",
-    borderWidth: 1
+    resizeMode: "contain"
   }
 });
