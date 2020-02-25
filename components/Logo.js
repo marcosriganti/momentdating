@@ -1,12 +1,14 @@
 import React from "react";
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 
 export default function Logo(props) {
   return (
-    <Image
-      source={require("../assets/images/logo_gif.png")}
-      style={styles.navHeaderLogo}
-    />
+    <View style={props.style}>
+      <Image
+        source={require("../assets/images/logo_gif.png")}
+        style={styles.navHeaderLogo}
+      />
+    </View>
   );
 }
 

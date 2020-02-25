@@ -2,6 +2,12 @@ import { StyleSheet } from "react-native";
 import Colors from "../constants/Colors";
 
 export default StyleSheet.create({
+  helpText1: {
+    color: Colors.darkColor,
+    fontFamily: "freight-sans-medium",
+    textAlign: "center",
+    fontSize: 20
+  },
   errorLabel: {
     color: "red",
     fontSize: 14,
@@ -25,9 +31,6 @@ export default StyleSheet.create({
     marginBottom: 15,
     flexDirection: "row",
     alignItems: "center"
-    // flex: 1,
-    // alignItems: "center",
-    // justifyContent: "center"
   },
   btnDefaultText: {
     color: Colors.darkColor,

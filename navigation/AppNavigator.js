@@ -10,10 +10,11 @@ import SignInScreen from "../screens/SignInScreen";
 import HomeScreen from "../screens/HomeScreen";
 import OnBoarding from "../screens/OnBoardingScreen";
 import PhoneScreen from "../screens/PhoneScreen";
+import userImages from "../screens/onBoarding/userImages";
 
 const Boarding = createStackNavigator({
+  step1: userImages,
   screen0: OnBoarding,
-  screen1: OnBoarding,
   screen2: OnBoarding,
   screen3: OnBoarding,
   screen4: OnBoarding,

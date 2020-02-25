@@ -5,8 +5,7 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
-  Image,
-  Alert
+  Image
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 // import * as GoogleSignIn from 'expo-google-sign-in';
@@ -70,9 +69,10 @@ class SignInScreen extends React.Component {
           />
         </View>
         <View style={{ flex: 1, paddingHorizontal: 20 }}>
-          {/* Continue With Phone Number */}
-
-          <TouchableOpacity style={Common.btnPrimary}>
+          <TouchableOpacity
+            style={Common.btnPrimary}
+            onPress={this._signInAsync}
+          >
             <Text style={Common.btnPrimaryText}>Continue with LinkedIn</Text>
           </TouchableOpacity>
           <View style={{ flex: 2, flexDirection: "row" }}>
@@ -137,7 +137,7 @@ class SignInScreen extends React.Component {
   }
   _signInAsync = async () => {
     await AsyncStorage.setItem("userToken", "abc");
-    this.props.navigation.navigate("onBoarding");
+    this.props.navigation.navigate("screen2");
   };
 }
 
